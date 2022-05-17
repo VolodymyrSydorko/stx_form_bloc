@@ -11,8 +11,10 @@ class DateTimeFieldBloc
   DateTimeFieldBloc({
     String? name,
     DateTime? initialValue,
-    List<Validator<DateTime?>> validators = const [],
-    List<ValidationType>? rules,
+    bool enabled = true,
+    bool? required,
+    List<Validator<DateTime?>>? customValidators,
+    List<ValidationType> rules = const [],
     DateTime? firstDate,
     DateTime? lastDate,
   }) : super(
@@ -20,18 +22,25 @@ class DateTimeFieldBloc
             name: FieldBlocUtils.generateName(name),
             initialValue: initialValue,
             value: initialValue,
-            error: FieldBlocUtils.getInitialStateError(
-              value: initialValue,
-              validators: validators,
-            ),
             isValueChanged: false,
             isDirty: rules.hasOnMounted,
-            validators: validators,
+            validators: FieldBlocValidators.getValidators(
+              customValidators,
+              required,
+            ),
+            rules: rules,
+            error: FieldBlocUtils.getInitialStateError(
+              value: initialValue,
+              validators: FieldBlocValidators.getValidators(
+                customValidators,
+                required,
+              ),
+            ),
+            enabled: enabled,
             firstDate: firstDate,
             lastDate: lastDate,
           ),
           defaultValue: null,
-          rules: rules,
         );
 
   StreamSubscription? firstDateSubscription;

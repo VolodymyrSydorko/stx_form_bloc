@@ -8,22 +8,32 @@ class BooleanFieldBloc extends SingleFieldBloc<bool?, BooleanFieldBlocState> {
   BooleanFieldBloc({
     String? name,
     bool initialValue = false,
-    List<Validator<bool?>> validators = const [],
-    List<ValidationType>? rules,
-  }) : super(
+    bool enabled = true,
+    bool? required,
+    List<Validator<bool?>>? customValidators,
+    List<ValidationType> rules = const [],
+  })  : assert(required == null || customValidators == null),
+        super(
           initialState: BooleanFieldBlocState(
             name: FieldBlocUtils.generateName(name),
             initialValue: initialValue,
             value: initialValue,
-            error: FieldBlocUtils.getInitialStateError(
-              value: initialValue,
-              validators: validators,
-            ),
             isValueChanged: false,
             isDirty: rules.hasOnMounted,
-            validators: validators,
+            validators: FieldBlocValidators.getValidators(
+              customValidators,
+              required,
+            ),
+            rules: rules,
+            error: FieldBlocUtils.getInitialStateError(
+              value: initialValue,
+              validators: FieldBlocValidators.getValidators(
+                customValidators,
+                required,
+              ),
+            ),
+            enabled: enabled,
           ),
           defaultValue: null,
-          rules: rules,
         );
 }

@@ -10,4 +10,4 @@ export 'src/blocs/multi_select_field/multi_select_field_bloc.dart';
 export 'src/blocs/datetime_field/datetime_field_bloc.dart';
 export 'src/blocs/boolean_field/boolean_field_bloc.dart';
 export 'src/blocs/group_field/group_field_bloc.dart';
-export 'src/blocs/list_field2/list_field_bloc.dart';
+export 'src/blocs/list_field/list_field_bloc.dart';

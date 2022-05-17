@@ -31,30 +31,21 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   SingleFieldBloc({
     required State initialState,
     required this.defaultValue,
-    required List<ValidationType>? rules,
-  })  : _rules = rules ?? [],
-        super(initialState) {
-    // _streamController.add(initialState.value);
-    // stream.listen((state) async {
-    //   if (await valueChanged.last != state.value) {
-    //     _streamController.add(state.value);
-    //   }
-    // });
-  }
+  }) : super(initialState);
 
   final Value defaultValue;
 
-  final List<ValidationType> _rules;
-
   Value get value => state.value;
 
-  List<Validator<Value>> get validators => state.validators;
-
-  bool get isRequired => validators.contains(FieldBlocValidators.required);
+  bool get isInitial => state.isInitial;
 
   bool get isValueChanged => state.isValueChanged;
 
-  bool get isInitial => state.isInitial;
+  bool get isRequired => validators.contains(FieldBlocValidators.required);
+
+  List<Validator<Value>> get validators => state.validators;
+
+  List<ValidationType> get rules => state.rules;
 
   bool get isValid => state.isValid;
 
@@ -62,15 +53,8 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
 
   String? get displayError => state.displayError;
 
-  final _streamController = StreamController<Value>();
-  Stream<Value> get valueChanged => _streamController.stream;
-
   @protected
   String? getError(Value value) {
-    // if (this.value == value && this.validators == ) {
-    //   return this.error;
-    // }
-
     String? error;
 
     for (var validator in validators) {
@@ -105,30 +89,34 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
       value: value,
       isValueChanged: false,
       error: error,
-      isDirty: _rules.hasOnMounted,
+      isDirty: rules.hasOnMounted,
     ) as State);
   }
 
   void changeValue(Value value) {
+    if (state.disabled) return;
+
     final error = getError(value);
 
     emit(state.copyWith(
       value: value,
       error: error,
       isValueChanged: true,
-      isDirty: _rules.hasOnChange,
+      isDirty: rules.hasOnChange,
     ) as State);
   }
 
   @override
   void clear() {
+    if (state.disabled) return;
+
     final error = getError(defaultValue);
 
     emit(state.copyWith(
       value: defaultValue,
       error: error,
       isValueChanged: true,
-      isDirty: _rules.hasOnChange || _rules.hasOnClear,
+      isDirty: rules.hasOnChange || rules.hasOnClear,
     ) as State);
   }
 
@@ -141,13 +129,13 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
       value: value,
       isValueChanged: false,
       error: error,
-      isDirty: _rules.hasOnMounted || state.isDirty,
+      isDirty: rules.hasOnMounted,
     ) as State);
   }
 
   void focusChanged() {
     emit(state.copyWith(
-      isDirty: _rules.hasOnBlur || state.isDirty,
+      isDirty: rules.hasOnBlur,
     ) as State);
   }
 
@@ -162,7 +150,7 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
     _validate(shouldDirty: forceValidation);
   }
 
-  void updateValidators(
+  void changeValidators(
     List<Validator<Value>> validators, {
     bool? isDirty,
   }) {
@@ -189,6 +177,10 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
       error: error,
       isDirty: isDirty,
     ) as State);
+  }
+
+  void changeAvailability(bool enabled) {
+    emit(state.copyWith(enabled: enabled) as State);
   }
 
   @override

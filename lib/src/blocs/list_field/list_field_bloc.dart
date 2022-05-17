@@ -11,47 +11,60 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
   ListFieldBloc({
     String? name,
     List<T> initialValue = const [],
-    List<Validator<List<T>>> validators = const [],
-    List<ValidationType>? rules,
+    bool enabled = true,
+    bool? required,
+    List<Validator<List<T>>>? customValidators,
+    List<ValidationType> rules = const [],
   }) : super(
           initialState: ListFieldBlocState(
             name: FieldBlocUtils.generateName(name),
             initialValue: initialValue,
             value: initialValue,
-            error: FieldBlocUtils.getInitialStateError(
-              value: initialValue,
-              validators: validators,
-            ),
             isValueChanged: false,
             isDirty: rules.hasOnMounted,
-            validators: validators,
+            validators: FieldBlocValidators.getValidators(
+              customValidators,
+              required,
+            ),
+            rules: rules,
+            error: FieldBlocUtils.getInitialStateError(
+              value: initialValue,
+              validators: FieldBlocValidators.getValidators(
+                customValidators,
+                required,
+              ),
+            ),
+            enabled: enabled,
           ),
           defaultValue: [],
-          rules: rules,
         );
 
   void addItem(T newValue) {
     changeValue([...state.value, newValue]);
   }
 
-  void insert(int index, T newValue) {
-    changeValue([...state.value]..insert(index, newValue));
-  }
-
   void addItems(List<T> newValues) {
     changeValue([...state.value, ...newValues]);
+  }
+
+  void insertItem(int index, T newValue) {
+    changeValue([...state.value]..insert(index, newValue));
   }
 
   void insertItems(int index, List<T> newValues) {
     changeValue([...state.value]..insertAll(index, newValues));
   }
 
+  void removeAt(int index) {
+    changeValue([...state.value]..removeAt(index));
+  }
+
   void removeItem(T value) {
     changeValue([...state.value]..remove(value));
   }
 
-  void removeAt(int index) {
-    changeValue([...state.value]..removeAt(index));
+  void replaceAt(int index, T newValue) {
+    changeValue([...state.value]..[index] = newValue);
   }
 
   void replaceWhere(bool Function(T) predicate, T newValue) {

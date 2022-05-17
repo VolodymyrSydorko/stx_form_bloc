@@ -42,7 +42,7 @@ class LoginFormBloc extends FormBloc<String, String> {
   }) : super() {
     email = TextFieldBloc(
       initialValue: emailData ?? 'volodymyr@gmail.com',
-      validators: [
+      customValidators: [
         FieldBlocValidators.required,
         FieldBlocValidators.email,
       ],
@@ -51,7 +51,7 @@ class LoginFormBloc extends FormBloc<String, String> {
 
     password = TextFieldBloc(
       initialValue: 'qwerty123',
-      validators: [
+      customValidators: [
         FieldBlocValidators.required,
         FieldBlocValidators.passwordMin6Chars
       ],

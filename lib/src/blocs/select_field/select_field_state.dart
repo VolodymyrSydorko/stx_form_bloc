@@ -2,23 +2,27 @@ part of 'select_field_bloc.dart';
 
 class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
   SelectFieldBlocState({
-    required bool isValueChanged,
+    required String name,
     required Value? initialValue,
     required Value? value,
-    required String? error,
+    required bool isValueChanged,
     required bool isDirty,
     required List<Validator<Value?>> validators,
+    required List<ValidationType> rules,
+    required String? error,
+    required bool enabled,
     FormBloc? formBloc,
-    required String name,
     required this.items,
   }) : super(
           name: name,
           initialValue: initialValue,
           value: value,
-          error: error,
           isValueChanged: isValueChanged,
           isDirty: isDirty,
           validators: validators,
+          rules: rules,
+          error: error,
+          enabled: enabled,
           formBloc: formBloc,
         );
 
@@ -28,10 +32,12 @@ class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
   SelectFieldBlocState<Value> copyWith({
     Object? initialValue = empty,
     Object? value = empty,
-    Object? error = empty,
     bool? isValueChanged,
     bool? isDirty,
     List<Validator<Value?>>? validators,
+    List<ValidationType>? rules,
+    Object? error = empty,
+    bool? enabled,
     Object? formBloc = empty,
     List<Value>? items,
   }) {
@@ -40,10 +46,12 @@ class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
       initialValue:
           initialValue == empty ? this.initialValue : initialValue as Value?,
       value: value == empty ? this.value : value as Value?,
-      error: error == empty ? this.error : error as String?,
       isValueChanged: isValueChanged ?? this.isValueChanged,
       isDirty: isDirty ?? this.isDirty,
       validators: validators ?? this.validators,
+      rules: rules ?? this.rules,
+      error: error == empty ? this.error : error as String?,
+      enabled: enabled ?? this.enabled,
       formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
       items: items ?? this.items,
     );

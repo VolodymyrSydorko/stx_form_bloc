@@ -32,6 +32,14 @@ class FieldBlocValidatorsErrors {
 class FieldBlocValidators {
   FieldBlocValidators._();
 
+  static List<Validator<T>> getValidators<T>(
+      List<Validator<T>>? validators, bool? required) {
+    return [
+      if (required == true) FieldBlocValidators.required,
+      ...(validators ?? []),
+    ];
+  }
+
   /// Check if the [value] is is not null, not empty or false.
   ///
   /// Returns `null` if is valid.

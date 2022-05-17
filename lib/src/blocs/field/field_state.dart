@@ -17,11 +17,13 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
     required this.name,
     required this.initialValue,
     required this.value,
-    required this.error,
     required this.isValueChanged,
     required this.isDirty,
-    required this.formBloc,
     required this.validators,
+    required this.rules,
+    required this.error,
+    required this.enabled,
+    required this.formBloc,
   });
 
   @override
@@ -31,13 +33,17 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
 
   final Value value;
 
-  final String? error;
-
   final bool isValueChanged;
 
   final bool isDirty;
 
   final List<Validator<Value>> validators;
+
+  final List<ValidationType> rules;
+
+  final String? error;
+
+  final bool enabled;
 
   @override
   final FormBloc? formBloc;
@@ -49,26 +55,32 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
 
   bool get hasValue => value != null;
 
+  bool get disabled => !enabled;
+
   String? get displayError => isDirty ? error : null;
 
   FieldBlocState<Value> copyWith({
     Value? initialValue,
     Value? value,
-    String? error,
     bool? isValueChanged,
     bool? isDirty,
-    FormBloc? formBloc,
     List<Validator<Value>>? validators,
+    List<ValidationType>? rules,
+    String? error,
+    bool? enabled,
+    FormBloc? formBloc,
   });
 
   @override
   List<Object?> get props => [
         initialValue,
         value,
-        error,
         isValueChanged,
         isDirty,
         validators,
+        rules,
+        error,
+        enabled,
         formBloc,
       ];
 }

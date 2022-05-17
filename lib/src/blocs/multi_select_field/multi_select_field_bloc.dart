@@ -9,36 +9,45 @@ class MultiSelectFieldBloc<Value>
   MultiSelectFieldBloc({
     String? name,
     List<Value> initialValue = const [],
-    List<Validator<List<Value>>> validators = const [],
-    List<ValidationType>? rules,
+    bool enabled = true,
+    bool? required,
+    List<Validator<List<Value>>>? customValidators,
+    List<ValidationType> rules = const [],
     List<Value> items = const [],
   }) : super(
           initialState: MultiSelectFieldBlocState(
             name: FieldBlocUtils.generateName(name),
             initialValue: initialValue,
             value: initialValue,
-            error: FieldBlocUtils.getInitialStateError(
-              value: initialValue,
-              validators: validators,
-            ),
             isValueChanged: false,
             isDirty: rules.hasOnMounted,
-            validators: validators,
+            validators: FieldBlocValidators.getValidators(
+              customValidators,
+              required,
+            ),
+            rules: rules,
+            error: FieldBlocUtils.getInitialStateError(
+              value: initialValue,
+              validators: FieldBlocValidators.getValidators(
+                customValidators,
+                required,
+              ),
+            ),
+            enabled: enabled,
             items: items,
           ),
           defaultValue: const [],
-          rules: rules,
         );
 
-  void updateItems(List<Value> items) {
+  void addItem(Value item) {
+    emit(state.copyWith(items: [...state.items, item]));
+  }
+
+  void changeItems(List<Value> items) {
     emit(state.copyWith(
       items: items,
       value: items.contains(value) ? value : null,
     ));
-  }
-
-  void addItem(Value item) {
-    emit(state.copyWith(items: [...state.items, item]));
   }
 
   void removeItem(Value item) {

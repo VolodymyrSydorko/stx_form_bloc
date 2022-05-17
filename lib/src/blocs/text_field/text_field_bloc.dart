@@ -8,22 +8,32 @@ class TextFieldBloc extends SingleFieldBloc<String, TextFieldBlocState> {
   TextFieldBloc({
     String? name,
     String initialValue = '',
-    List<Validator<String>> validators = const [],
-    List<ValidationType>? rules,
+    bool enabled = true,
+    bool? required,
+    List<Validator<String>>? customValidators,
+    List<ValidationType> rules = const [],
   }) : super(
           initialState: TextFieldBlocState(
-              name: FieldBlocUtils.generateName(name),
-              initialValue: initialValue,
+            name: FieldBlocUtils.generateName(name),
+            initialValue: initialValue,
+            value: initialValue,
+            isValueChanged: false,
+            isDirty: rules.hasOnMounted,
+            validators: FieldBlocValidators.getValidators(
+              customValidators,
+              required,
+            ),
+            rules: rules,
+            error: FieldBlocUtils.getInitialStateError(
               value: initialValue,
-              error: FieldBlocUtils.getInitialStateError(
-                value: initialValue,
-                validators: validators,
+              validators: FieldBlocValidators.getValidators(
+                customValidators,
+                required,
               ),
-              isValueChanged: false,
-              isDirty: rules.hasOnMounted,
-              validators: validators),
+            ),
+            enabled: enabled,
+          ),
           defaultValue: '',
-          rules: rules,
         );
 
   int? get valueToInt => state.valueToInt;
