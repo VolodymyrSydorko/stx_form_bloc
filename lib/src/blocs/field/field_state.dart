@@ -57,6 +57,8 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
 
   bool get disabled => !enabled;
 
+  bool get isRequired => validators.contains(FieldBlocValidators.required);
+
   String? get displayError => isDirty ? error : null;
 
   FieldBlocState<Value> copyWith({

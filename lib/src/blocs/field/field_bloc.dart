@@ -41,7 +41,7 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
 
   bool get isValueChanged => state.isValueChanged;
 
-  bool get isRequired => validators.contains(FieldBlocValidators.required);
+  bool get isRequired => state.isRequired;
 
   List<Validator<Value>> get validators => state.validators;
 

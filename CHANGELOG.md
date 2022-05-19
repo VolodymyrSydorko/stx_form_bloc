@@ -1,8 +1,11 @@
+## 1.0.3
+- Added isRequired property to fieldBloc state.
+
 ## 1.0.2
-- Added enabled and required properties
+- Added enabled and required properties.
 
 ## 1.0.1
-- Updated dependencies
+- Updated dependencies.
 
 ## 1.0.0
 
