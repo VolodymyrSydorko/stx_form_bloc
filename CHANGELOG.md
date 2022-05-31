@@ -1,3 +1,6 @@
+## 1.0.5
+- Changed NumberFieldBloc's value type to int.
+
 ## 1.0.4
 - Added NumberFieldBloc.
 - Changed initialValue in BooleanFieldBloc to null.

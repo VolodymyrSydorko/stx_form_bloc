@@ -4,13 +4,13 @@ import 'package:stx_form_bloc/src/validators/field_bloc_validators.dart';
 
 part 'number_field_state.dart';
 
-class NumberFieldBloc extends SingleFieldBloc<double?, NumberFieldBlocState> {
+class NumberFieldBloc extends SingleFieldBloc<int?, NumberFieldBlocState> {
   NumberFieldBloc({
     String? name,
-    double? initialValue,
+    int? initialValue,
     bool enabled = true,
     bool? required,
-    List<Validator<double?>>? customValidators,
+    List<Validator<int?>>? customValidators,
     List<ValidationType> rules = const [],
   })  : assert(required == null || customValidators == null),
         super(

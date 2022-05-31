@@ -1,13 +1,13 @@
 part of 'number_field_bloc.dart';
 
-class NumberFieldBlocState extends FieldBlocState<double?> {
+class NumberFieldBlocState extends FieldBlocState<int?> {
   NumberFieldBlocState({
     required String name,
-    required double? initialValue,
-    required double? value,
+    required int? initialValue,
+    required int? value,
     required bool isValueChanged,
     required bool isDirty,
-    required List<Validator<double?>> validators,
+    required List<Validator<int?>> validators,
     required List<ValidationType> rules,
     required String? error,
     required bool enabled,
@@ -31,7 +31,7 @@ class NumberFieldBlocState extends FieldBlocState<double?> {
     Object? value = empty,
     bool? isValueChanged,
     bool? isDirty,
-    List<Validator<double?>>? validators,
+    List<Validator<int?>>? validators,
     List<ValidationType>? rules,
     Object? error = empty,
     bool? enabled,
@@ -40,8 +40,8 @@ class NumberFieldBlocState extends FieldBlocState<double?> {
     return NumberFieldBlocState(
       name: name,
       initialValue:
-          initialValue == empty ? this.initialValue : initialValue as double?,
-      value: value == empty ? this.value : value as double?,
+          initialValue == empty ? this.initialValue : initialValue as int?,
+      value: value == empty ? this.value : value as int?,
       isValueChanged: isValueChanged ?? this.isValueChanged,
       isDirty: isDirty ?? this.isDirty,
       validators: validators ?? this.validators,
