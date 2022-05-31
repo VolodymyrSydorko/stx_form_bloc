@@ -11,3 +11,4 @@ export 'src/blocs/datetime_field/datetime_field_bloc.dart';
 export 'src/blocs/boolean_field/boolean_field_bloc.dart';
 export 'src/blocs/group_field/group_field_bloc.dart';
 export 'src/blocs/list_field/list_field_bloc.dart';
+export 'src/blocs/number_field/number_field_bloc.dart';
