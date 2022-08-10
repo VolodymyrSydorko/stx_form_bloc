@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:stx_form_bloc/src/blocs/form_bloc/form_bloc.dart';
 import 'package:stx_form_bloc/src/extension.dart';
 import 'package:stx_form_bloc/src/validators/field_bloc_validators.dart';
@@ -53,7 +52,6 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
 
   String? get displayError => state.displayError;
 
-  @protected
   String? getError(Value value) {
     String? error;
 
