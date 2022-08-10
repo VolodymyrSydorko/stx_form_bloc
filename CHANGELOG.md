@@ -1,3 +1,6 @@
+## 1.0.8
+- Fixed replaceWhere in ListFieldBloc.
+
 ## 1.0.7
 - Fixed 'value' setter in ListFieldBloc.
 - Added replaceAllWhere to ListFieldBloc.

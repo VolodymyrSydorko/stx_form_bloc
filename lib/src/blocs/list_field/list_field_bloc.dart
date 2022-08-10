@@ -83,7 +83,7 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
     final index = value.indexWhere(predicate);
 
     if (index >= 0) {
-      value[index] = newValue(value[index]);
+      this[index] = newValue(value[index]);
     }
   }
 

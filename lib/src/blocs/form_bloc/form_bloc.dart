@@ -31,7 +31,7 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
   }
 
   FutureOr<void> submit() {
-    emit(state.copyWith(isValidating: true));
+    emit(state.copyWith(status: FormStatus.initial, isValidating: true));
     emit(_validate());
 
     if (state.status.isValid) {
