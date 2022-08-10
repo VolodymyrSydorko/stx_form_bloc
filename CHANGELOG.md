@@ -1,3 +1,6 @@
+## 1.0.8+1
+- Increased dart version.
+
 ## 1.0.8
 - Fixed replaceWhere in ListFieldBloc.
 
