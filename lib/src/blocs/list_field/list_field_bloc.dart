@@ -40,7 +40,7 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
         );
 
   set value(List<T> newValue) {
-    changeValue(value);
+    changeValue(newValue);
   }
 
   void add(T newValue) {
@@ -71,8 +71,20 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
     value = [...value]..[index] = newValue;
   }
 
-  void replaceWhere(bool Function(T) predicate, T newValue) {
-    value = value.map((value) => predicate(value) ? newValue : value).toList();
+  void replaceAllWhere(
+      bool Function(T) predicate, T Function(T oldValue) newValue) {
+    value = value
+        .map((value) => predicate(value) ? newValue(value) : value)
+        .toList();
+  }
+
+  void replaceWhere(
+      bool Function(T) predicate, T Function(T oldValue) newValue) {
+    final index = value.indexWhere(predicate);
+
+    if (index >= 0) {
+      value[index] = newValue(value[index]);
+    }
   }
 
   T operator [](int i) => value[i];
