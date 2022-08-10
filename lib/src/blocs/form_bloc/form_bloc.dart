@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:stx_form_bloc/src/blocs/field/field_bloc.dart';
 
 part 'form_bloc_state.dart';
@@ -16,43 +15,33 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
           FormBlocState(
             isEditing: isEditing,
           ),
-        ) {
-    _onValidationStatus = stream.switchMap((state) {
-      return MultiFieldBloc.onValidationStatus(state.fields.values);
-    }).listen((isValid) {
-      emit(
-        state.copyWith(
-          status: isValid ? FormStatus.valid : FormStatus.invalid,
-          isValidated: false,
-        ),
-      );
-    });
-  }
-
-  late final StreamSubscription _onValidationStatus;
+        );
 
   bool get isEditing => state.isEditing;
   bool get isCreating => !state.isEditing;
 
   Map<String, FieldBloc> get fields => state.fields;
 
-  FutureOr<void> initialize({Map<String, dynamic>? params}) async {
-    await onInitialize(params ?? {});
+  FutureOr<void> initialize({Map<String, dynamic>? params}) {
+    return onInitialize(params ?? {});
   }
 
-  FutureOr<void> validate() async => emit(_validate());
+  FutureOr<void> validate() {
+    emit(_validate());
+  }
 
-  FutureOr<void> submit() async {
+  FutureOr<void> submit() {
+    emit(state.copyWith(isValidating: true));
     emit(_validate());
 
     if (state.status.isValid) {
       emitLoading();
-      await onSubmit();
+      return onSubmit();
     }
   }
 
-  FutureOr<void> cancel() async {
-    await onCancel();
+  FutureOr<void> cancel() {
+    return onCancel();
   }
 
   FutureOr<void> reset() {
@@ -106,7 +95,7 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
 
     return state.copyWith(
       status: _getFieldsStatus(fields),
-      isValidated: true,
+      isValidating: false,
     );
   }
 
@@ -143,11 +132,9 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
   @override
   Future<void> close() async {
     for (var f in fields.values) {
-      f.close();
+      await f.close();
     }
 
-    _onValidationStatus.cancel();
-
-    super.close();
+    return super.close();
   }
 }

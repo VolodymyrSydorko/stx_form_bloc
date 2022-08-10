@@ -26,7 +26,7 @@ class FormBlocState<SuccessResponse, FailureResponse> extends Equatable {
   final SuccessResponse? response;
   final FailureResponse? error;
   final bool isEditing;
-  final bool isValidated;
+  final bool isValidating;
 
   FormBlocState({
     this.status = FormStatus.initial,
@@ -34,7 +34,7 @@ class FormBlocState<SuccessResponse, FailureResponse> extends Equatable {
     this.response,
     this.error,
     this.isEditing = false,
-    this.isValidated = false,
+    this.isValidating = false,
   });
 
   FormBlocState<SuccessResponse, FailureResponse> copyWith({
@@ -43,7 +43,7 @@ class FormBlocState<SuccessResponse, FailureResponse> extends Equatable {
     SuccessResponse? response,
     FailureResponse? error,
     bool? isEditing,
-    bool? isValidated,
+    bool? isValidating,
   }) {
     return FormBlocState<SuccessResponse, FailureResponse>(
       status: status ?? this.status,
@@ -51,7 +51,7 @@ class FormBlocState<SuccessResponse, FailureResponse> extends Equatable {
       response: response ?? this.response,
       error: error ?? this.error,
       isEditing: isEditing ?? this.isEditing,
-      isValidated: isValidated ?? this.isValidated,
+      isValidating: isValidating ?? this.isValidating,
     );
   }
 
@@ -62,6 +62,6 @@ class FormBlocState<SuccessResponse, FailureResponse> extends Equatable {
         response,
         error,
         isEditing,
-        isValidated,
+        isValidating,
       ];
 }

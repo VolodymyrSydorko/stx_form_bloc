@@ -36,7 +36,7 @@ class FieldBlocValidators {
       List<Validator<T>>? validators, bool? required) {
     return [
       if (required == true) FieldBlocValidators.required,
-      ...(validators ?? []),
+      ...?validators,
     ];
   }
 
@@ -53,6 +53,7 @@ class FieldBlocValidators {
             value.length == 0)) {
       return FieldBlocValidatorsErrors.required;
     }
+
     return null;
   }
 
@@ -84,6 +85,7 @@ class FieldBlocValidators {
     if (string == null || string.isEmpty || string.runes.length >= 6) {
       return null;
     }
+
     return FieldBlocValidatorsErrors.passwordMin6Chars;
   }
 

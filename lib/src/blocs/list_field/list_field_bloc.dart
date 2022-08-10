@@ -39,43 +39,45 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
           defaultValue: [],
         );
 
-  void addItem(T newValue) {
-    changeValue([...state.value, newValue]);
+  set value(List<T> newValue) {
+    changeValue(value);
   }
 
-  void addItems(List<T> newValues) {
-    changeValue([...state.value, ...newValues]);
+  void add(T newValue) {
+    value = [...value, newValue];
   }
 
-  void insertItem(int index, T newValue) {
-    changeValue([...state.value]..insert(index, newValue));
+  void addAll(List<T> newValues) {
+    value = [...value, ...newValues];
   }
 
-  void insertItems(int index, List<T> newValues) {
-    changeValue([...state.value]..insertAll(index, newValues));
+  void insert(int index, T newValue) {
+    value = [...value]..insert(index, newValue);
+  }
+
+  void insertAll(int index, List<T> newValues) {
+    value = [...value]..insertAll(index, newValues);
   }
 
   void removeAt(int index) {
-    changeValue([...state.value]..removeAt(index));
+    value = [...value]..removeAt(index);
   }
 
-  void removeItem(T value) {
-    changeValue([...state.value]..remove(value));
+  void remove(T item) {
+    value = [...value]..remove(item);
   }
 
   void replaceAt(int index, T newValue) {
-    changeValue([...state.value]..[index] = newValue);
+    value = [...value]..[index] = newValue;
   }
 
   void replaceWhere(bool Function(T) predicate, T newValue) {
-    changeValue(
-      state.value.map((value) => predicate(value) ? newValue : value).toList(),
-    );
+    value = value.map((value) => predicate(value) ? newValue : value).toList();
   }
 
-  T operator [](int i) => state.value[i]; // get
-  void operator []=(int i, T value) => state.value[i] = value;
+  T operator [](int i) => value[i];
+  void operator []=(int i, T item) => value = [...value]..[i] = item;
 
   @override
-  Iterator<T> get iterator => state.value.iterator;
+  Iterator<T> get iterator => value.iterator;
 }

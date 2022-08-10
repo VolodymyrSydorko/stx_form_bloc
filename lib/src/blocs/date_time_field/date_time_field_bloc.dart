@@ -4,7 +4,7 @@ import 'package:stx_form_bloc/src/blocs/field/field_bloc.dart';
 import 'package:stx_form_bloc/src/blocs/form_bloc/form_bloc.dart';
 import 'package:stx_form_bloc/src/validators/field_bloc_validators.dart';
 
-part 'datetime_field_state.dart';
+part 'date_time_field_state.dart';
 
 class DateTimeFieldBloc
     extends SingleFieldBloc<DateTime?, DateTimeFieldBlocState> {
