@@ -1,3 +1,10 @@
+## 1.0.6
+- Fixed ListFieldBloc.
+- Added 'value' setter to ListFieldBloc.
+- Removed status listener in FormBloc (use GroupField instead).
+- Minor improvements in FormBloc.
+- Updated dependencies.
+
 ## 1.0.5
 - Changed NumberFieldBloc's value type to int.
 
