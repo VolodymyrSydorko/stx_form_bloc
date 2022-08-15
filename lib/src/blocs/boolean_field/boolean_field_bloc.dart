@@ -12,6 +12,7 @@ class BooleanFieldBloc extends SingleFieldBloc<bool?, BooleanFieldBlocState> {
     bool? required,
     List<Validator<bool?>>? customValidators,
     List<ValidationType> rules = const [],
+    dynamic data,
   })  : assert(required == null || customValidators == null),
         super(
           initialState: BooleanFieldBlocState(
@@ -33,6 +34,7 @@ class BooleanFieldBloc extends SingleFieldBloc<bool?, BooleanFieldBlocState> {
               ),
             ),
             enabled: enabled,
+            data: data,
           ),
           defaultValue: null,
         );

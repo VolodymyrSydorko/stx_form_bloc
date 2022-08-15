@@ -52,6 +52,8 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
 
   String? get displayError => state.displayError;
 
+  dynamic get data => state.data;
+
   String? getError(Value value) {
     String? error;
 

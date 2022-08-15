@@ -12,6 +12,7 @@ class NumberFieldBloc extends SingleFieldBloc<int?, NumberFieldBlocState> {
     bool? required,
     List<Validator<int?>>? customValidators,
     List<ValidationType> rules = const [],
+    dynamic data,
   })  : assert(required == null || customValidators == null),
         super(
           initialState: NumberFieldBlocState(
@@ -33,6 +34,7 @@ class NumberFieldBloc extends SingleFieldBloc<int?, NumberFieldBlocState> {
               ),
             ),
             enabled: enabled,
+            data: data,
           ),
           defaultValue: null,
         );

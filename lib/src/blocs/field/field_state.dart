@@ -7,6 +7,8 @@ mixin FieldBlocStateBase {
 
   bool get isNotValid => !isValid;
 
+  dynamic get data;
+
   FormBloc? get formBloc;
 
   bool get hasFormBloc => formBloc != null;
@@ -23,6 +25,7 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
     required this.rules,
     required this.error,
     required this.enabled,
+    required this.data,
     required this.formBloc,
   });
 
@@ -44,6 +47,9 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
   final String? error;
 
   final bool enabled;
+
+  @override
+  final dynamic data;
 
   @override
   final FormBloc? formBloc;
@@ -70,6 +76,7 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
     List<ValidationType>? rules,
     String? error,
     bool? enabled,
+    dynamic data,
     FormBloc? formBloc,
   });
 
@@ -83,6 +90,7 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
         rules,
         error,
         enabled,
+        data,
         formBloc,
       ];
 }
@@ -97,6 +105,9 @@ abstract class MultiFieldBlocState extends Equatable with FieldBlocStateBase {
   final bool hasDisplayError;
 
   @override
+  final dynamic data;
+
+  @override
   final FormBloc? formBloc;
 
   Iterable<FieldBloc> get flatFieldBlocs;
@@ -105,15 +116,23 @@ abstract class MultiFieldBlocState extends Equatable with FieldBlocStateBase {
     required this.name,
     required this.isValid,
     required this.hasDisplayError,
+    required this.data,
     required this.formBloc,
   });
 
   MultiFieldBlocState copyWith({
     bool? isValid,
     bool? hasDisplayError,
+    dynamic data,
     FormBloc? formBloc,
   });
 
   @override
-  List<Object?> get props => [name, isValid, hasDisplayError, formBloc];
+  List<Object?> get props => [
+        name,
+        isValid,
+        hasDisplayError,
+        data,
+        formBloc,
+      ];
 }

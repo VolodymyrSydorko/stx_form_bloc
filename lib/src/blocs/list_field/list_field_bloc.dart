@@ -15,6 +15,7 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
     bool? required,
     List<Validator<List<T>>>? customValidators,
     List<ValidationType> rules = const [],
+    dynamic data,
   }) : super(
           initialState: ListFieldBlocState(
             name: FieldBlocUtils.generateName(name),
@@ -35,6 +36,7 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
               ),
             ),
             enabled: enabled,
+            data: data,
           ),
           defaultValue: [],
         );

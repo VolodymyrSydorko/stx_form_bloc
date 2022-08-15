@@ -4,29 +4,19 @@ class MultiSelectFieldBlocState<Value> extends FieldBlocState<List<Value>> {
   final List<Value> items;
 
   MultiSelectFieldBlocState({
-    required String name,
-    required List<Value> initialValue,
-    required List<Value> value,
-    required bool isValueChanged,
-    required bool isDirty,
-    required List<Validator<List<Value>>> validators,
-    required List<ValidationType> rules,
-    required String? error,
-    required bool enabled,
-    FormBloc? formBloc,
+    required super.name,
+    required super.initialValue,
+    required super.value,
+    required super.isValueChanged,
+    required super.isDirty,
+    required super.validators,
+    required super.rules,
+    required super.error,
+    required super.enabled,
+    super.data,
+    super.formBloc,
     required this.items,
-  }) : super(
-          name: name,
-          initialValue: initialValue,
-          value: value,
-          isValueChanged: isValueChanged,
-          isDirty: isDirty,
-          validators: validators,
-          rules: rules,
-          error: error,
-          enabled: enabled,
-          formBloc: formBloc,
-        );
+  });
 
   @override
   MultiSelectFieldBlocState<Value> copyWith({
@@ -38,6 +28,7 @@ class MultiSelectFieldBlocState<Value> extends FieldBlocState<List<Value>> {
     List<ValidationType>? rules,
     Object? error = empty,
     bool? enabled,
+    Object? data = empty,
     Object? formBloc = empty,
     List<Value>? items,
   }) {
@@ -51,6 +42,7 @@ class MultiSelectFieldBlocState<Value> extends FieldBlocState<List<Value>> {
       rules: rules ?? this.rules,
       error: error == empty ? this.error : error as String?,
       enabled: enabled ?? this.enabled,
+      data: data == empty ? this.data : data,
       formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
       items: items ?? this.items,
     );

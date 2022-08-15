@@ -14,6 +14,7 @@ class MultiSelectFieldBloc<Value>
     List<Validator<List<Value>>>? customValidators,
     List<ValidationType> rules = const [],
     List<Value> items = const [],
+    dynamic data,
   }) : super(
           initialState: MultiSelectFieldBlocState(
             name: FieldBlocUtils.generateName(name),
@@ -34,6 +35,7 @@ class MultiSelectFieldBloc<Value>
               ),
             ),
             enabled: enabled,
+            data: data,
             items: items,
           ),
           defaultValue: const [],

@@ -8,12 +8,14 @@ class GroupFieldBloc<T extends FieldBloc>
   GroupFieldBloc({
     String? name,
     List<T> fieldBlocs = const [],
+    dynamic data,
   }) : super(
           GroupFieldBlocState(
             name: name ?? Uuid().v1(),
             isValid: FormBlocUtils.isValid(fieldBlocs),
             hasDisplayError: MultiFieldBloc.deepHasDisplayError(fieldBlocs),
             fieldBlocs: fieldBlocs,
+            data: data,
           ),
         );
 

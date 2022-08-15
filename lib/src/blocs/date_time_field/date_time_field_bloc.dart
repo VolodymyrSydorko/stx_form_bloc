@@ -15,6 +15,7 @@ class DateTimeFieldBloc
     bool? required,
     List<Validator<DateTime?>>? customValidators,
     List<ValidationType> rules = const [],
+    dynamic data,
     DateTime? firstDate,
     DateTime? lastDate,
   }) : super(
@@ -37,6 +38,7 @@ class DateTimeFieldBloc
               ),
             ),
             enabled: enabled,
+            data: data,
             firstDate: firstDate,
             lastDate: lastDate,
           ),

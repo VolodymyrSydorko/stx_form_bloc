@@ -2,30 +2,20 @@ part of 'date_time_field_bloc.dart';
 
 class DateTimeFieldBlocState extends FieldBlocState<DateTime?> {
   DateTimeFieldBlocState({
-    required String name,
-    required DateTime? initialValue,
-    required DateTime? value,
-    required bool isValueChanged,
-    required bool isDirty,
-    required List<Validator<DateTime?>> validators,
-    required List<ValidationType> rules,
-    required String? error,
-    required bool enabled,
+    required super.name,
+    required super.initialValue,
+    required super.value,
+    required super.isValueChanged,
+    required super.isDirty,
+    required super.validators,
+    required super.rules,
+    required super.error,
+    required super.enabled,
+    super.data,
+    super.formBloc,
     required this.firstDate,
     required this.lastDate,
-    FormBloc? formBloc,
-  }) : super(
-          name: name,
-          initialValue: initialValue,
-          value: value,
-          isValueChanged: isValueChanged,
-          isDirty: isDirty,
-          validators: validators,
-          rules: rules,
-          error: error,
-          enabled: enabled,
-          formBloc: formBloc,
-        );
+  });
 
   final DateTime? firstDate;
   final DateTime? lastDate;
@@ -40,6 +30,7 @@ class DateTimeFieldBlocState extends FieldBlocState<DateTime?> {
     List<ValidationType>? rules,
     Object? error = empty,
     bool? enabled,
+    Object? data = empty,
     Object? formBloc = empty,
     Object? firstDate = empty,
     Object? lastDate = empty,
@@ -55,6 +46,7 @@ class DateTimeFieldBlocState extends FieldBlocState<DateTime?> {
       rules: rules ?? this.rules,
       error: error == empty ? this.error : error as String?,
       enabled: enabled ?? this.enabled,
+      data: data == empty ? this.data : data,
       formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
       firstDate: firstDate == empty ? this.firstDate : firstDate as DateTime?,
       lastDate: lastDate == empty ? this.lastDate : lastDate as DateTime?,

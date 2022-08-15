@@ -12,6 +12,7 @@ class TextFieldBloc extends SingleFieldBloc<String, TextFieldBlocState> {
     bool? required,
     List<Validator<String>>? customValidators,
     List<ValidationType> rules = const [],
+    dynamic data,
   }) : super(
           initialState: TextFieldBlocState(
             name: FieldBlocUtils.generateName(name),
@@ -32,6 +33,7 @@ class TextFieldBloc extends SingleFieldBloc<String, TextFieldBlocState> {
               ),
             ),
             enabled: enabled,
+            data: data,
           ),
           defaultValue: '',
         );

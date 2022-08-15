@@ -2,28 +2,18 @@ part of 'number_field_bloc.dart';
 
 class NumberFieldBlocState extends FieldBlocState<int?> {
   NumberFieldBlocState({
-    required String name,
-    required int? initialValue,
-    required int? value,
-    required bool isValueChanged,
-    required bool isDirty,
-    required List<Validator<int?>> validators,
-    required List<ValidationType> rules,
-    required String? error,
-    required bool enabled,
-    FormBloc? formBloc,
-  }) : super(
-          name: name,
-          initialValue: initialValue,
-          value: value,
-          isValueChanged: isValueChanged,
-          isDirty: isDirty,
-          validators: validators,
-          rules: rules,
-          error: error,
-          enabled: enabled,
-          formBloc: formBloc,
-        );
+    required super.name,
+    required super.initialValue,
+    required super.value,
+    required super.isValueChanged,
+    required super.isDirty,
+    required super.validators,
+    required super.rules,
+    required super.error,
+    required super.enabled,
+    super.data,
+    super.formBloc,
+  });
 
   @override
   NumberFieldBlocState copyWith({
@@ -35,6 +25,7 @@ class NumberFieldBlocState extends FieldBlocState<int?> {
     List<ValidationType>? rules,
     Object? error = empty,
     bool? enabled,
+    Object? data = empty,
     Object? formBloc = empty,
   }) {
     return NumberFieldBlocState(
@@ -48,6 +39,7 @@ class NumberFieldBlocState extends FieldBlocState<int?> {
       rules: rules ?? this.rules,
       error: error == empty ? this.error : error as String?,
       enabled: enabled ?? this.enabled,
+      data: data == empty ? this.data : data,
       formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
     );
   }

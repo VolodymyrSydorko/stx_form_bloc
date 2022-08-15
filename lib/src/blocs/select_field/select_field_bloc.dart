@@ -14,6 +14,7 @@ class SelectFieldBloc<Value>
     List<Validator<Value?>>? customValidators,
     List<ValidationType> rules = const [],
     List<Value> items = const [],
+    dynamic data,
   }) : super(
           initialState: SelectFieldBlocState(
             name: FieldBlocUtils.generateName(name),
@@ -34,6 +35,7 @@ class SelectFieldBloc<Value>
               ),
             ),
             enabled: enabled,
+            data: data,
             items: items,
           ),
           defaultValue: null,

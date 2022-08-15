@@ -2,28 +2,18 @@ part of 'list_field_bloc.dart';
 
 class ListFieldBlocState<T> extends FieldBlocState<List<T>> {
   ListFieldBlocState({
-    required String name,
-    required List<T> initialValue,
-    required List<T> value,
-    required bool isValueChanged,
-    required bool isDirty,
-    required List<Validator<List<T>>> validators,
-    required List<ValidationType> rules,
-    required String? error,
-    required bool enabled,
-    FormBloc? formBloc,
-  }) : super(
-          name: name,
-          initialValue: initialValue,
-          value: value,
-          isValueChanged: isValueChanged,
-          isDirty: isDirty,
-          validators: validators,
-          rules: rules,
-          error: error,
-          enabled: enabled,
-          formBloc: formBloc,
-        );
+    required super.name,
+    required super.initialValue,
+    required super.value,
+    required super.isValueChanged,
+    required super.isDirty,
+    required super.validators,
+    required super.rules,
+    required super.error,
+    required super.enabled,
+    super.data,
+    super.formBloc,
+  });
 
   @override
   ListFieldBlocState<T> copyWith({
@@ -35,6 +25,7 @@ class ListFieldBlocState<T> extends FieldBlocState<List<T>> {
     List<ValidationType>? rules,
     Object? error = empty,
     bool? enabled,
+    Object? data = empty,
     Object? formBloc = empty,
   }) {
     return ListFieldBlocState(
@@ -47,6 +38,7 @@ class ListFieldBlocState<T> extends FieldBlocState<List<T>> {
       rules: rules ?? this.rules,
       error: error == empty ? this.error : error as String?,
       enabled: enabled ?? this.enabled,
+      data: data == empty ? this.data : data,
       formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
     );
   }
