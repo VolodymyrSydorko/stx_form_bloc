@@ -1,6 +1,6 @@
 name: stx_form_bloc
 description: Easy Form State Management using BLoC pattern. Separate the Form State and Business Logic from the User Interface.
-version: 1.0.8+1
+version: 1.0.9
 
 homepage: https://github.com/VolodymyrSydorko/stx_form_bloc
 repository: https://github.com/VolodymyrSydorko/stx_form_bloc

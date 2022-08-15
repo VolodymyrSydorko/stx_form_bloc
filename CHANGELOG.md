@@ -1,3 +1,6 @@
+## 1.0.9
+- Added "data" field to FieldBlocState.
+
 ## 1.0.8+1
 - Increased dart version.
 
