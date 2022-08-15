@@ -1,3 +1,6 @@
+## 1.0.9+1
+- Added "data" getter to FieldBloc.
+
 ## 1.0.9
 - Added "data" field to FieldBlocState.
 

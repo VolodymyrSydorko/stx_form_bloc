@@ -14,6 +14,8 @@ part 'field_state.dart';
 mixin FieldBloc<State extends FieldBlocStateBase> on BlocBase<State> {
   String get name => state.name;
 
+  dynamic get data => state.data;
+
   bool validate();
 
   void reset();
@@ -51,8 +53,6 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   String? get error => state.error;
 
   String? get displayError => state.displayError;
-
-  dynamic get data => state.data;
 
   String? getError(Value value) {
     String? error;
