@@ -201,7 +201,7 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
 
   @override
   String toString() {
-    return '$runtimeType';
+    return value.toString();
   }
 }
 
