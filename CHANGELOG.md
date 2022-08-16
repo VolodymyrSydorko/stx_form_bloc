@@ -1,3 +1,7 @@
+## 1.0.10
+- Added ImageFieldBloc.
+- Override "toString" method.
+
 ## 1.0.9+1
 - Added "data" getter to FieldBloc.
 
