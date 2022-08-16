@@ -17,8 +17,8 @@ class ImageFieldBlocState extends FieldBlocState<Uint8List?> {
 
   @override
   ImageFieldBlocState copyWith({
-    Uint8List? initialValue,
-    Uint8List? value,
+    Object? initialValue = empty,
+    Object? value = empty,
     bool? isValueChanged,
     bool? isDirty,
     List<Validator<Uint8List?>>? validators,
@@ -30,8 +30,10 @@ class ImageFieldBlocState extends FieldBlocState<Uint8List?> {
   }) {
     return ImageFieldBlocState(
       name: name,
-      initialValue: initialValue ?? this.initialValue,
-      value: value ?? this.value,
+      initialValue: initialValue == empty
+          ? this.initialValue
+          : initialValue as Uint8List?,
+      value: value == empty ? this.value : value as Uint8List?,
       isValueChanged: isValueChanged ?? this.isValueChanged,
       isDirty: isDirty ?? this.isDirty,
       validators: validators ?? this.validators,

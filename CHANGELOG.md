@@ -1,3 +1,6 @@
+## 1.0.10+1
+- Fixed "copyWith" method in ImageFieldBloc.
+
 ## 1.0.10
 - Added ImageFieldBloc.
 - Override "toString" method.
