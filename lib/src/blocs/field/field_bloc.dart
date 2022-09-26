@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stx_form_bloc/src/blocs/form_bloc/form_bloc.dart';
-import 'package:stx_form_bloc/src/extension.dart';
 import 'package:stx_form_bloc/src/validators/field_bloc_validators.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
@@ -37,24 +36,26 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   final Value defaultValue;
 
   Value get value => state.value;
+  Value get initialValue => state.initialValue;
 
   bool get isInitial => state.isInitial;
-
   bool get isValueChanged => state.isValueChanged;
 
+  Set<Validator<Value>> get validators => state.validators;
   bool get isRequired => state.isRequired;
 
-  List<Validator<Value>> get validators => state.validators;
+  Set<ValidationType> get rules => state.rules;
 
-  List<ValidationType> get rules => state.rules;
+  bool get enabled => state.enabled;
+  bool get disabled => state.disabled;
 
   bool get isValid => state.isValid;
+  bool get isNotValid => state.isNotValid;
 
   String? get error => state.error;
-
   String? get displayError => state.displayError;
 
-  String? getError(Value value) {
+  String? _getError(Value value) {
     String? error;
 
     for (var validator in validators) {
@@ -66,12 +67,14 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   }
 
   void _validate({bool? shouldDirty}) {
-    final error = getError(state.value);
+    final error = _getError(state.value);
 
-    emit(state.copyWith(
-      error: error,
-      isDirty: shouldDirty,
-    ) as State);
+    emit(
+      state.copyWith(
+        error: error,
+        isDirty: shouldDirty,
+      ) as State,
+    );
   }
 
   @override
@@ -81,8 +84,10 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
     return isValid;
   }
 
-  void updateInitial(Value value) {
-    final error = getError(state.value);
+  void updateInitial(Value value, {bool forceChange = false}) {
+    if (!forceChange && disabled) return;
+
+    final error = _getError(state.value);
 
     emit(state.copyWith(
       initialValue: value,
@@ -93,10 +98,10 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
     ) as State);
   }
 
-  void changeValue(Value value) {
-    if (state.disabled) return;
+  void changeValue(Value value, {bool forceChange = false}) {
+    if (!forceChange && disabled) return;
 
-    final error = getError(value);
+    final error = _getError(value);
 
     emit(state.copyWith(
       value: value,
@@ -107,10 +112,10 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   }
 
   @override
-  void clear() {
-    if (state.disabled) return;
+  void clear({bool force = false}) {
+    if (!force && disabled) return;
 
-    final error = getError(defaultValue);
+    final error = _getError(defaultValue);
 
     emit(state.copyWith(
       value: defaultValue,
@@ -121,9 +126,11 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   }
 
   @override
-  void reset() {
+  void reset({bool force = false}) {
+    if (!force && disabled) return;
+
     final value = state.initialValue;
-    final error = getError(value);
+    final error = _getError(value);
 
     emit(state.copyWith(
       value: value,
@@ -139,35 +146,74 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
     ) as State);
   }
 
+  void addValidator(
+    Validator<Value> validator, {
+    bool forceValidation = false,
+  }) =>
+      addValidators({validator}, forceValidation: forceValidation);
+
   void addValidators(
-    List<Validator<Value>> validators, {
+    Set<Validator<Value>> validators, {
     bool forceValidation = false,
   }) {
-    final updatedValidators = [...this.validators, ...validators];
+    final updatedValidators = {...this.validators, ...validators};
 
-    emit(state.copyWith(validators: updatedValidators) as State);
-
-    _validate(shouldDirty: forceValidation);
+    changeValidators(updatedValidators, forceValidation: forceValidation);
   }
 
   void changeValidators(
-    List<Validator<Value>> validators, {
-    bool? isDirty,
+    Set<Validator<Value>> validators, {
+    bool forceValidation = true,
   }) {
     emit(state.copyWith(validators: validators) as State);
 
-    _validate(shouldDirty: isDirty);
+    _validate(shouldDirty: forceValidation);
   }
 
+  void removeValidator(
+    Validator<Value> validator, {
+    bool forceValidation = false,
+  }) =>
+      removeValidators({validator}, forceValidation: forceValidation);
+
   void removeValidators(
-    List<Validator<Value>> validators, {
+    Set<Validator<Value>> validators, {
     bool forceValidation = false,
   }) {
-    final updatedValidators = [...this.validators]..removeAll(validators);
+    final updatedValidators = {...this.validators}..removeAll(validators);
 
-    emit(state.copyWith(validators: updatedValidators) as State);
+    changeValidators(updatedValidators, forceValidation: forceValidation);
+  }
 
-    _validate(shouldDirty: forceValidation);
+  void changeRequirement(bool required) {
+    if (isRequired == required) return;
+
+    if (required) {
+      addValidator(FieldBlocValidators.required);
+    } else {
+      removeValidator(FieldBlocValidators.required);
+    }
+  }
+
+  void addRule(ValidationType rule) => addRules({rule});
+  void addRules(Set<ValidationType> rules) {
+    final updatedRules = {...this.rules, ...rules};
+
+    changeRules(updatedRules);
+  }
+
+  void changeRules(Set<ValidationType> rules) {
+    emit(state.copyWith(
+      rules: rules,
+      isDirty: rules.hasOnMounted,
+    ) as State);
+  }
+
+  void removeRule(ValidationType rule) => removeRules({rule});
+  void removeRules(Set<ValidationType> rules) {
+    final updatedRules = {...this.rules}..removeAll(rules);
+
+    changeRules(updatedRules);
   }
 
   /// It is useful when you want to add errors that
@@ -183,6 +229,10 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
     emit(state.copyWith(enabled: enabled) as State);
   }
 
+  void changeData(dynamic data) {
+    emit(state.copyWith(data: data) as State);
+  }
+
   @override
   void updateFormBloc(FormBloc formBloc) {
     emit(state.copyWith(
@@ -193,15 +243,17 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   @override
   void removeFormBloc(FormBloc formBloc) {
     if (state.formBloc == formBloc) {
-      emit(state.copyWith(
-        formBloc: null,
-      ) as State);
+      emit(state.copyWith(formBloc: null) as State);
     }
+  }
+
+  String? toNullableString() {
+    return state.toNullableString();
   }
 
   @override
   String toString() {
-    return value.toString();
+    return state.toString();
   }
 }
 

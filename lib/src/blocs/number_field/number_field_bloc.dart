@@ -10,11 +10,10 @@ class NumberFieldBloc extends SingleFieldBloc<int?, NumberFieldBlocState> {
     int? initialValue,
     bool enabled = true,
     bool? required,
-    List<Validator<int?>>? customValidators,
-    List<ValidationType> rules = const [],
+    Set<Validator<int?>>? customValidators,
+    Set<ValidationType> rules = const {},
     dynamic data,
-  })  : assert(required == null || customValidators == null),
-        super(
+  }) : super(
           initialState: NumberFieldBlocState(
             name: FieldBlocUtils.generateName(name),
             initialValue: initialValue,

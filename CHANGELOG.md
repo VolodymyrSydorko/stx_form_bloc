@@ -1,3 +1,18 @@
+## 2.0.0
+- Deleted emitLoading() in the submit method.
+- Renamed "items" to "options" in SelectFieldBloc and MultiSelectFieldBloc.
+- Added options getter to SelectFieldBloc and MultiSelectFieldBloc.
+- Don't set value which isn't from the options.
+- Added some getters to FormBloc.
+- Added changeRequirement method.
+- Changed type of the validators and rules properties to Set (instead of List).
+- Add some useful method to FormBloc (addValidator, changeData, etc).
+- Added DateFormat to DateTimeFieldBloc.
+- Added toNullableString method to FormBloc.
+- Changed TextFieldBloc initial value to "null".
+- Fixed boolean validator.
+- Added a couple of tests.
+
 ## 1.0.10+1
 - Fixed "copyWith" method in ImageFieldBloc.
 

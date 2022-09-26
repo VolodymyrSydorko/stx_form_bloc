@@ -4,14 +4,14 @@ import 'package:stx_form_bloc/src/validators/field_bloc_validators.dart';
 
 part 'text_field_state.dart';
 
-class TextFieldBloc extends SingleFieldBloc<String, TextFieldBlocState> {
+class TextFieldBloc extends SingleFieldBloc<String?, TextFieldBlocState> {
   TextFieldBloc({
     String? name,
-    String initialValue = '',
+    String? initialValue,
     bool enabled = true,
     bool? required,
-    List<Validator<String>>? customValidators,
-    List<ValidationType> rules = const [],
+    Set<Validator<String?>>? customValidators,
+    Set<ValidationType> rules = const {},
     dynamic data,
   }) : super(
           initialState: TextFieldBlocState(
@@ -35,10 +35,6 @@ class TextFieldBloc extends SingleFieldBloc<String, TextFieldBlocState> {
             enabled: enabled,
             data: data,
           ),
-          defaultValue: '',
+          defaultValue: null,
         );
-
-  int? get valueToInt => state.valueToInt;
-
-  double? get valueToDouble => state.valueToDouble;
 }

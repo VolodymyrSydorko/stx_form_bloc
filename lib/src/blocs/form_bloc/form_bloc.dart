@@ -20,6 +20,11 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
   bool get isEditing => state.isEditing;
   bool get isCreating => !state.isEditing;
 
+  //Checking if all fields are valid
+  bool get isValid => _getFieldsStatus(fields).isValid;
+  //Checking if any fields are invalid
+  bool get isNotValid => !isValid;
+
   Map<String, FieldBloc> get fields => state.fields;
 
   FutureOr<void> initialize({Map<String, dynamic>? params}) {
@@ -31,11 +36,9 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
   }
 
   FutureOr<void> submit() {
-    emit(state.copyWith(status: FormStatus.initial, isValidating: true));
     emit(_validate());
 
     if (state.status.isValid) {
-      emitLoading();
       return onSubmit();
     }
   }
@@ -66,6 +69,7 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
     );
   }
 
+  void addField(FieldBloc field) => addFields([field]);
   void addFields(Iterable<FieldBloc> fields) {
     final newFields = {...state.fields};
     if (fields.isNotEmpty) {
@@ -74,9 +78,15 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
       }
     }
 
-    emit(state.copyWith(fields: newFields));
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        fields: newFields,
+      ),
+    );
   }
 
+  void removeField(FieldBloc field) => removeFields([field]);
   void removeFields(Iterable<FieldBloc> fields) {
     final newFields = {...state.fields};
     if (fields.isNotEmpty) {
@@ -85,17 +95,11 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
         field.removeFormBloc(this);
       }
     }
-    emit(state.copyWith(fields: newFields));
-  }
-
-  FormBlocState<SuccessResponse, FailureResponse> _validate() {
-    for (var field in fields.values) {
-      field.validate();
-    }
-
-    return state.copyWith(
-      status: _getFieldsStatus(fields),
-      isValidating: false,
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        fields: newFields,
+      ),
     );
   }
 
@@ -103,12 +107,10 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
 
   FutureOr<void> onSubmit();
 
-  FutureOr<void> onCancel() {
-    emitCancelled();
-  }
+  FutureOr<void> onCancel() {}
 
-  void emitLoading() => emit(state.copyWith(status: FormStatus.loading));
   void emitInitial() => emit(state.copyWith(status: FormStatus.initial));
+  void emitLoading() => emit(state.copyWith(status: FormStatus.loading));
   void emitSuccess(SuccessResponse response) => emit(
         state.copyWith(
           response: response,
@@ -124,9 +126,22 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
   void emitCancelled() => emit(state.copyWith(status: FormStatus.cancelled));
 
   FormStatus _getFieldsStatus(Map<String, FieldBloc> fields) {
-    return fields.values.every((field) => field.state.isValid)
-        ? FormStatus.valid
-        : FormStatus.invalid;
+    return fields.values.any((field) => field.state.isNotValid)
+        ? FormStatus.invalid
+        : FormStatus.valid;
+  }
+
+  FormBlocState<SuccessResponse, FailureResponse> _validate() {
+    emit(state.copyWith(status: FormStatus.initial, isValidating: true));
+
+    for (var field in fields.values) {
+      field.validate();
+    }
+
+    return state.copyWith(
+      status: _getFieldsStatus(fields),
+      isValidating: false,
+    );
   }
 
   @override

@@ -13,8 +13,8 @@ class ImageFieldBloc extends SingleFieldBloc<Uint8List?, ImageFieldBlocState> {
     Uint8List? initialValue,
     bool enabled = true,
     bool? required,
-    List<Validator<Uint8List?>>? customValidators,
-    List<ValidationType> rules = const [],
+    Set<Validator<Uint8List?>>? customValidators,
+    Set<ValidationType> rules = const {},
     dynamic data,
   }) : super(
           initialState: ImageFieldBlocState(
@@ -46,8 +46,8 @@ class ImageFieldBloc extends SingleFieldBloc<Uint8List?, ImageFieldBlocState> {
     String? initialValue,
     bool enabled = true,
     bool? required,
-    List<Validator<Uint8List?>>? customValidators,
-    List<ValidationType> rules = const [],
+    Set<Validator<Uint8List?>>? customValidators,
+    Set<ValidationType> rules = const {},
     dynamic data,
   }) {
     Uint8List? bytes;

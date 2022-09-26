@@ -13,8 +13,8 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
     List<T> initialValue = const [],
     bool enabled = true,
     bool? required,
-    List<Validator<List<T>>>? customValidators,
-    List<ValidationType> rules = const [],
+    Set<Validator<List<T>>>? customValidators,
+    Set<ValidationType> rules = const {},
     dynamic data,
   }) : super(
           initialState: ListFieldBlocState(

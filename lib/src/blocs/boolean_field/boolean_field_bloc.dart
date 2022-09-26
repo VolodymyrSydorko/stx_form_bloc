@@ -10,25 +10,24 @@ class BooleanFieldBloc extends SingleFieldBloc<bool?, BooleanFieldBlocState> {
     bool? initialValue,
     bool enabled = true,
     bool? required,
-    List<Validator<bool?>>? customValidators,
-    List<ValidationType> rules = const [],
+    Set<Validator<bool?>>? customValidators,
+    Set<ValidationType> rules = const {},
     dynamic data,
-  })  : assert(required == null || customValidators == null),
-        super(
+  }) : super(
           initialState: BooleanFieldBlocState(
             name: FieldBlocUtils.generateName(name),
             initialValue: initialValue,
             value: initialValue,
             isValueChanged: false,
             isDirty: rules.hasOnMounted,
-            validators: FieldBlocValidators.getValidators(
+            validators: FieldBlocValidators.getBooleanValidators(
               customValidators,
               required,
             ),
             rules: rules,
             error: FieldBlocUtils.getInitialStateError(
               value: initialValue,
-              validators: FieldBlocValidators.getValidators(
+              validators: FieldBlocValidators.getBooleanValidators(
                 customValidators,
                 required,
               ),
@@ -38,4 +37,15 @@ class BooleanFieldBloc extends SingleFieldBloc<bool?, BooleanFieldBlocState> {
           ),
           defaultValue: null,
         );
+
+  @override
+  void changeRequirement(bool required) {
+    if (isRequired == required) return;
+
+    if (required) {
+      addValidator(FieldBlocValidators.booleanRequired);
+    } else {
+      removeValidator(FieldBlocValidators.booleanRequired);
+    }
+  }
 }

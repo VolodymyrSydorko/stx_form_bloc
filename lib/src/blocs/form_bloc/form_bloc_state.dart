@@ -2,22 +2,22 @@ part of 'form_bloc.dart';
 
 enum FormStatus {
   initial,
-  invalid,
-  valid,
   loading,
   success,
   failure,
-  cancelled
+  cancelled,
+  invalid,
+  valid,
 }
 
 extension FormStatusX on FormStatus {
   bool get isInitial => FormStatus.initial == this;
-  bool get isValid => FormStatus.valid == this;
   bool get isLoading => FormStatus.loading == this;
   bool get isSuccess => FormStatus.success == this;
   bool get isFailure => FormStatus.failure == this;
-  bool get isInvalid => FormStatus.invalid == this;
   bool get isCancelled => FormStatus.cancelled == this;
+  bool get isValid => FormStatus.valid == this;
+  bool get isInvalid => FormStatus.invalid == this;
 }
 
 class FormBlocState<SuccessResponse, FailureResponse> extends Equatable {

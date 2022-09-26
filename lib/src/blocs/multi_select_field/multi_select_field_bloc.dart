@@ -1,5 +1,7 @@
+import 'package:darq/darq.dart';
 import 'package:stx_form_bloc/src/blocs/field/field_bloc.dart';
 import 'package:stx_form_bloc/src/blocs/form_bloc/form_bloc.dart';
+import 'package:stx_form_bloc/src/extension.dart';
 import 'package:stx_form_bloc/src/validators/field_bloc_validators.dart';
 
 part 'multi_select_field_state.dart';
@@ -11,15 +13,15 @@ class MultiSelectFieldBloc<Value>
     List<Value> initialValue = const [],
     bool enabled = true,
     bool? required,
-    List<Validator<List<Value>>>? customValidators,
-    List<ValidationType> rules = const [],
-    List<Value> items = const [],
+    Set<Validator<List<Value>>>? customValidators,
+    Set<ValidationType> rules = const {},
+    List<Value> options = const [],
     dynamic data,
   }) : super(
           initialState: MultiSelectFieldBlocState(
             name: FieldBlocUtils.generateName(name),
-            initialValue: initialValue,
-            value: initialValue,
+            initialValue: initialValue.intersect(options).toList(),
+            value: initialValue.intersect(options).toList(),
             isValueChanged: false,
             isDirty: rules.hasOnMounted,
             validators: FieldBlocValidators.getValidators(
@@ -36,35 +38,51 @@ class MultiSelectFieldBloc<Value>
             ),
             enabled: enabled,
             data: data,
-            items: items,
+            options: options,
           ),
           defaultValue: const [],
         );
 
-  void addItem(Value item) {
-    emit(state.copyWith(items: [...state.items, item]));
+  List<Value> get options => state.options;
+
+  void changeOptions(List<Value> options) {
+    emit(state.copyWith(options: options));
   }
 
-  void changeItems(List<Value> items) {
-    emit(state.copyWith(
-      items: items,
-      value: items.contains(value) ? value : null,
-    ));
+  void addItem(Value newItem) => addOptions([newItem]);
+  void addOptions(List<Value> newOptions) {
+    final updatedOptions = [...state.options, ...newOptions];
+
+    changeOptions(updatedOptions);
   }
 
-  void removeItem(Value item) {
-    if (state.items.isNotEmpty) {
-      final items = [...state.items]..remove(item);
-      emit(state.copyWith(
-        items: items,
-        value: items.contains(value) ? value : null,
-      ));
+  void removeItem(Value item) => removeOptions([item]);
+  void removeOptions(List<Value> options) {
+    if (state.options.isNotEmpty) {
+      final updatedOptions = [...state.options]..removeAll(options);
+
+      changeOptions(updatedOptions);
     }
   }
+
+  void clearOptions() => changeOptions([]);
 
   void selectValue(Value valueToSelect) =>
       changeValue([...value, valueToSelect]);
 
   void deselectValue(Value valueToDeselect) =>
       changeValue([...value]..remove(valueToDeselect));
+
+  @override
+  void emit(MultiSelectFieldBlocState<Value> state) {
+    if (initialValue != state.initialValue ||
+        value != state.value ||
+        options != state.options) {
+      state = state.copyWith(
+          initialValue: state.initialValue.intersect(state.options).toList(),
+          value: state.value.intersect(state.options).toList());
+    }
+
+    super.emit(state);
+  }
 }

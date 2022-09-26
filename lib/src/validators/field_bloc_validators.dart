@@ -9,7 +9,7 @@ enum ValidationType {
   onClear,
 }
 
-extension ValidationTypeX on List<ValidationType>? {
+extension ValidationTypeX on Set<ValidationType>? {
   bool get hasOnMounted => this?.contains(ValidationType.onMounted) == true;
   bool get hasOnChange => this?.contains(ValidationType.onChange) == true;
   bool get hasOnBlur => this?.contains(ValidationType.onBlur) == true;
@@ -32,12 +32,20 @@ class FieldBlocValidatorsErrors {
 class FieldBlocValidators {
   FieldBlocValidators._();
 
-  static List<Validator<T>> getValidators<T>(
-      List<Validator<T>>? validators, bool? required) {
-    return [
+  static Set<Validator<T>> getValidators<T>(
+      Set<Validator<T>>? validators, bool? required) {
+    return {
       if (required == true) FieldBlocValidators.required,
       ...?validators,
-    ];
+    };
+  }
+
+  static Set<Validator<bool?>> getBooleanValidators(
+      Set<Validator<bool?>>? validators, bool? required) {
+    return {
+      if (required == true) FieldBlocValidators.booleanRequired,
+      ...?validators,
+    };
   }
 
   /// Check if the [value] is is not null, not empty or false.
@@ -48,13 +56,20 @@ class FieldBlocValidators {
   /// if is not valid.
   static String? required(dynamic value) {
     if (value == null ||
-        value == false ||
         ((value is Iterable || value is String || value is Map) &&
             value.length == 0)) {
       return FieldBlocValidatorsErrors.required;
     }
 
     return null;
+  }
+
+  static String? booleanRequired(bool? value) {
+    if (value == true) {
+      return null;
+    }
+
+    return FieldBlocValidatorsErrors.required;
   }
 
   /// Check if the [string] is an email

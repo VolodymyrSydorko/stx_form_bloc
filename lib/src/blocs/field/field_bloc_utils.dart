@@ -10,7 +10,7 @@ class FieldBlocUtils {
   /// Returns the error of the [_initialValue].
   static String? getInitialStateError<Value>({
     required Value value,
-    required List<Validator<Value>>? validators,
+    required Set<Validator<Value>>? validators,
   }) {
     String? error;
 

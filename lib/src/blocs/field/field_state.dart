@@ -40,9 +40,9 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
 
   final bool isDirty;
 
-  final List<Validator<Value>> validators;
+  final Set<Validator<Value>> validators;
 
-  final List<ValidationType> rules;
+  final Set<ValidationType> rules;
 
   final String? error;
 
@@ -59,11 +59,14 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
 
   bool get isInitial => !isValueChanged;
 
-  bool get hasValue => value != null;
+  bool get hasValue =>
+      value is List ? (value as List).isNotEmpty : value != null;
 
   bool get disabled => !enabled;
 
-  bool get isRequired => validators.contains(FieldBlocValidators.required);
+  bool get isRequired =>
+      validators.contains(FieldBlocValidators.required) ||
+      validators.contains(FieldBlocValidators.booleanRequired);
 
   String? get displayError => isDirty ? error : null;
 
@@ -72,8 +75,8 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
     Value? value,
     bool? isValueChanged,
     bool? isDirty,
-    List<Validator<Value>>? validators,
-    List<ValidationType>? rules,
+    Set<Validator<Value>>? validators,
+    Set<ValidationType>? rules,
     String? error,
     bool? enabled,
     dynamic data,
@@ -93,6 +96,15 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
         data,
         formBloc,
       ];
+
+  String? toNullableString() {
+    return value?.toString();
+  }
+
+  @override
+  String toString() {
+    return value?.toString() ?? '';
+  }
 }
 
 abstract class MultiFieldBlocState extends Equatable with FieldBlocStateBase {

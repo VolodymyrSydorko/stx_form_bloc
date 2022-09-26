@@ -13,10 +13,10 @@ class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
     required super.enabled,
     super.data,
     super.formBloc,
-    required this.items,
+    required this.options,
   });
 
-  final List<Value> items;
+  final List<Value> options;
 
   @override
   SelectFieldBlocState<Value> copyWith({
@@ -24,13 +24,13 @@ class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
     Object? value = empty,
     bool? isValueChanged,
     bool? isDirty,
-    List<Validator<Value?>>? validators,
-    List<ValidationType>? rules,
+    Set<Validator<Value?>>? validators,
+    Set<ValidationType>? rules,
     Object? error = empty,
     bool? enabled,
     Object? data = empty,
     Object? formBloc = empty,
-    List<Value>? items,
+    List<Value>? options,
   }) {
     return SelectFieldBlocState<Value>(
       name: name,
@@ -45,10 +45,10 @@ class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
       enabled: enabled ?? this.enabled,
       data: data == empty ? this.data : data,
       formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
-      items: items ?? this.items,
+      options: options ?? this.options,
     );
   }
 
   @override
-  List<Object?> get props => [...super.props, items];
+  List<Object?> get props => [...super.props, options];
 }

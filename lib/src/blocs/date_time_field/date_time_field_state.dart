@@ -13,10 +13,12 @@ class DateTimeFieldBlocState extends FieldBlocState<DateTime?> {
     required super.enabled,
     super.data,
     super.formBloc,
+    required this.dateFormat,
     required this.firstDate,
     required this.lastDate,
   });
 
+  final DateFormat? dateFormat;
   final DateTime? firstDate;
   final DateTime? lastDate;
 
@@ -26,12 +28,13 @@ class DateTimeFieldBlocState extends FieldBlocState<DateTime?> {
     Object? value = empty,
     bool? isValueChanged,
     bool? isDirty,
-    List<Validator<DateTime?>>? validators,
-    List<ValidationType>? rules,
+    Set<Validator<DateTime?>>? validators,
+    Set<ValidationType>? rules,
     Object? error = empty,
     bool? enabled,
     Object? data = empty,
     Object? formBloc = empty,
+    Object? dateFormat = empty,
     Object? firstDate = empty,
     Object? lastDate = empty,
   }) {
@@ -48,6 +51,8 @@ class DateTimeFieldBlocState extends FieldBlocState<DateTime?> {
       enabled: enabled ?? this.enabled,
       data: data == empty ? this.data : data,
       formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
+      dateFormat:
+          dateFormat == empty ? this.dateFormat : dateFormat as DateFormat?,
       firstDate: firstDate == empty ? this.firstDate : firstDate as DateTime?,
       lastDate: lastDate == empty ? this.lastDate : lastDate as DateTime?,
     );
@@ -55,4 +60,18 @@ class DateTimeFieldBlocState extends FieldBlocState<DateTime?> {
 
   @override
   List<Object?> get props => [...super.props, firstDate, lastDate];
+
+  @override
+  String? toNullableString() {
+    if (value == null) return null;
+
+    return dateFormat != null ? dateFormat!.format(value!) : value!.toString();
+  }
+
+  @override
+  String toString() {
+    if (value == null) return '';
+
+    return dateFormat != null ? dateFormat!.format(value!) : value!.toString();
+  }
 }

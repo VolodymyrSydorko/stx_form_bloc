@@ -1,5 +1,6 @@
 import 'package:stx_form_bloc/src/blocs/field/field_bloc.dart';
 import 'package:stx_form_bloc/src/blocs/form_bloc/form_bloc.dart';
+import 'package:stx_form_bloc/src/extension.dart';
 import 'package:stx_form_bloc/src/validators/field_bloc_validators.dart';
 
 part 'select_field_state.dart';
@@ -11,15 +12,15 @@ class SelectFieldBloc<Value>
     Value? initialValue,
     bool enabled = true,
     bool? required,
-    List<Validator<Value?>>? customValidators,
-    List<ValidationType> rules = const [],
-    List<Value> items = const [],
+    Set<Validator<Value?>>? customValidators,
+    Set<ValidationType> rules = const {},
+    List<Value> options = const [],
     dynamic data,
   }) : super(
           initialState: SelectFieldBlocState(
             name: FieldBlocUtils.generateName(name),
-            initialValue: initialValue,
-            value: initialValue,
+            initialValue: options.contains(initialValue) ? initialValue : null,
+            value: options.contains(initialValue) ? initialValue : null,
             isValueChanged: false,
             isDirty: rules.hasOnMounted,
             validators: FieldBlocValidators.getValidators(
@@ -36,29 +37,50 @@ class SelectFieldBloc<Value>
             ),
             enabled: enabled,
             data: data,
-            items: items,
+            options: options,
           ),
           defaultValue: null,
         );
 
-  void addItem(Value item) {
-    emit(state.copyWith(items: [...state.items, item]));
-  }
+  List<Value> get options => state.options;
 
-  void changeItems(List<Value> items) {
+  void changeOptions(List<Value> options) {
     emit(state.copyWith(
-      items: items,
-      value: items.contains(value) ? value : null,
+      options: options,
     ));
   }
 
-  void removeItem(Value item) {
-    if (state.items.isNotEmpty) {
-      final items = [...state.items]..remove(item);
-      emit(state.copyWith(
-        items: items,
-        value: items.contains(value) ? value : null,
-      ));
+  void addOption(Value newOption) => addOptions([newOption]);
+  void addOptions(List<Value> newOptions) {
+    final updatedOptions = [...state.options, ...newOptions];
+
+    changeOptions(updatedOptions);
+  }
+
+  void removeOption(Value option) => removeOptions([option]);
+  void removeOptions(List<Value> options) {
+    if (state.options.isNotEmpty) {
+      final updatedOptions = [...state.options]..removeAll(options);
+
+      changeOptions(updatedOptions);
     }
+  }
+
+  void clearOptions() => changeOptions([]);
+
+  @override
+  void emit(SelectFieldBlocState<Value> state) {
+    if (initialValue != state.initialValue ||
+        value != state.value ||
+        options != state.options) {
+      state = state.copyWith(
+        initialValue: state.options.contains(state.initialValue)
+            ? state.initialValue
+            : null,
+        value: state.options.contains(state.value) ? state.value : null,
+      );
+    }
+
+    super.emit(state);
   }
 }

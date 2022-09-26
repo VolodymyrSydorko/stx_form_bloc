@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:intl/intl.dart';
 import 'package:stx_form_bloc/src/blocs/field/field_bloc.dart';
 import 'package:stx_form_bloc/src/blocs/form_bloc/form_bloc.dart';
 import 'package:stx_form_bloc/src/validators/field_bloc_validators.dart';
@@ -13,9 +14,10 @@ class DateTimeFieldBloc
     DateTime? initialValue,
     bool enabled = true,
     bool? required,
-    List<Validator<DateTime?>>? customValidators,
-    List<ValidationType> rules = const [],
+    Set<Validator<DateTime?>>? customValidators,
+    Set<ValidationType> rules = const {},
     dynamic data,
+    DateFormat? dateFormat,
     DateTime? firstDate,
     DateTime? lastDate,
   }) : super(
@@ -39,6 +41,7 @@ class DateTimeFieldBloc
             ),
             enabled: enabled,
             data: data,
+            dateFormat: dateFormat,
             firstDate: firstDate,
             lastDate: lastDate,
           ),
@@ -47,6 +50,10 @@ class DateTimeFieldBloc
 
   StreamSubscription? firstDateSubscription;
   StreamSubscription? lastDateSubscription;
+
+  changeDateFormat(DateFormat newDateFormat) {
+    emit(state.copyWith(dateFormat: newDateFormat));
+  }
 
   setFirstDateBloc(DateTimeFieldBloc? firstDateBloc) {
     firstDateSubscription?.cancel();
@@ -69,10 +76,10 @@ class DateTimeFieldBloc
   }
 
   @override
-  Future<void> close() async {
+  Future<void> close() {
     firstDateSubscription?.cancel();
     lastDateSubscription?.cancel();
 
-    await super.close();
+    return super.close();
   }
 }

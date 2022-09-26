@@ -45,18 +45,14 @@ class LoginFormBloc extends FormBloc<String, String> {
   }) {
     email = TextFieldBloc(
       initialValue: emailData ?? 'volodymyr@gmail.com',
-      customValidators: [
-        FieldBlocValidators.email,
-      ],
-      rules: [ValidationType.onChange],
+      customValidators: {FieldBlocValidators.email},
+      rules: {ValidationType.onChange},
     );
 
     password = TextFieldBloc(
       initialValue: 'qwerty123',
-      customValidators: [
-        FieldBlocValidators.passwordMin6Chars,
-      ],
-      rules: [ValidationType.onChange],
+      customValidators: {FieldBlocValidators.passwordMin6Chars},
+      rules: {ValidationType.onChange},
     );
 
     additionalFields = List.generate(
@@ -64,10 +60,8 @@ class LoginFormBloc extends FormBloc<String, String> {
       (index) {
         return TextFieldBloc(
           initialValue: 'qwerty123',
-          customValidators: [
-            FieldBlocValidators.passwordMin6Chars,
-          ],
-          rules: [ValidationType.onChange],
+          customValidators: {FieldBlocValidators.passwordMin6Chars},
+          rules: {ValidationType.onChange},
         );
       },
     );

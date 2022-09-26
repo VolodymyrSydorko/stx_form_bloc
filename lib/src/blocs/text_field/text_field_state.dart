@@ -1,6 +1,6 @@
 part of 'text_field_bloc.dart';
 
-class TextFieldBlocState extends FieldBlocState<String> {
+class TextFieldBlocState extends FieldBlocState<String?> {
   TextFieldBlocState({
     required super.name,
     required super.initialValue,
@@ -15,18 +15,14 @@ class TextFieldBlocState extends FieldBlocState<String> {
     super.formBloc,
   });
 
-  int? get valueToInt => int.tryParse(value);
-
-  double? get valueToDouble => double.tryParse(value);
-
   @override
   TextFieldBlocState copyWith({
-    String? initialValue,
-    String? value,
+    Object? initialValue = empty,
+    Object? value = empty,
     bool? isValueChanged,
     bool? isDirty,
-    List<Validator<String>>? validators,
-    List<ValidationType>? rules,
+    Set<Validator<String?>>? validators,
+    Set<ValidationType>? rules,
     Object? error = empty,
     bool? enabled,
     Object? data = empty,
@@ -34,8 +30,9 @@ class TextFieldBlocState extends FieldBlocState<String> {
   }) {
     return TextFieldBlocState(
       name: name,
-      initialValue: initialValue ?? this.initialValue,
-      value: value ?? this.value,
+      initialValue:
+          initialValue == empty ? this.initialValue : initialValue as String?,
+      value: value == empty ? this.value : value as String?,
       isValueChanged: isValueChanged ?? this.isValueChanged,
       isDirty: isDirty ?? this.isDirty,
       validators: validators ?? this.validators,

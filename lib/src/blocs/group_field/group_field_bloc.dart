@@ -22,7 +22,6 @@ class GroupFieldBloc<T extends FieldBloc>
   List<T> get fields => state.fieldBlocs;
 
   void addFieldBloc(T fieldBloc) => addFieldBlocs([fieldBloc]);
-
   void addFieldBlocs(List<T> fieldBlocs) {
     if (fieldBlocs.isNotEmpty) {
       final nextFieldBlocs = [...state.fieldBlocs, ...fieldBlocs];
