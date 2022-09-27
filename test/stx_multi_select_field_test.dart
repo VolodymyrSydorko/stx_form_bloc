@@ -22,11 +22,21 @@ void main() {
     expect(field.state.options, options);
   });
 
-  test("Create3", () {
+  test("Create with invalid values", () {
     final field = MultiSelectFieldBloc<int>(
         initialValue: initialValue, options: invalidOptions);
 
     expect(field.state.value, isEmpty);
+    expect(field.state.options, invalidOptions);
+  });
+
+  test("Create with invalid values 2", () {
+    final field = MultiSelectFieldBloc<int>(
+        initialValue: initialValue,
+        options: invalidOptions,
+        forceValueToSet: true);
+
+    expect(field.state.value, initialValue);
     expect(field.state.options, invalidOptions);
   });
 
@@ -59,6 +69,16 @@ void main() {
     field.changeValue(invalidValue);
 
     expect(field.state.value, isEmpty);
+    expect(field.state.options, options);
+  });
+
+  test("Set invalid value 2", () {
+    final field = MultiSelectFieldBloc<int>(
+        initialValue: initialValue, options: options, forceValueToSet: true);
+
+    field.changeValue(invalidValue);
+
+    expect(field.state.value, invalidValue);
     expect(field.state.options, options);
   });
 

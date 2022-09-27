@@ -22,11 +22,22 @@ void main() {
     expect(field.state.options, options);
   });
 
-  test("Create3", () {
+  test("Create with invalid value", () {
     final field = SelectFieldBloc<int>(
         initialValue: initialValue, options: invalidOptions);
 
     expect(field.state.value, isNull);
+    expect(field.state.options, invalidOptions);
+  });
+
+  test("Create with invalid value 2", () {
+    final field = SelectFieldBloc<int>(
+      initialValue: initialValue,
+      options: invalidOptions,
+      forceValueToSet: true,
+    );
+
+    expect(field.state.value, initialValue);
     expect(field.state.options, invalidOptions);
   });
 
@@ -59,6 +70,16 @@ void main() {
     field.changeValue(invalidValue);
 
     expect(field.state.value, isNull);
+    expect(field.state.options, options);
+  });
+
+  test("Set invalid value 2", () {
+    final field = SelectFieldBloc<int>(
+        initialValue: initialValue, options: options, forceValueToSet: true);
+
+    field.changeValue(invalidValue);
+
+    expect(field.state.value, invalidValue);
     expect(field.state.options, options);
   });
 

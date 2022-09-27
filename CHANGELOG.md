@@ -1,3 +1,7 @@
+## 2.0.2
+- Added "forceValueToSet" property in SelectFieldBloc and MultiSelectFieldBloc.
+
+
 ## 2.0.1
 - Added clearRules and clearValidators method
 - Revert deletion valueToInt and valueToDouble in TextFieldBloc

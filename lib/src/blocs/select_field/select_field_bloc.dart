@@ -16,11 +16,16 @@ class SelectFieldBloc<Value>
     Set<ValidationType> rules = const {},
     List<Value> options = const [],
     dynamic data,
+    this.forceValueToSet = false,
   }) : super(
           initialState: SelectFieldBlocState(
             name: FieldBlocUtils.generateName(name),
-            initialValue: options.contains(initialValue) ? initialValue : null,
-            value: options.contains(initialValue) ? initialValue : null,
+            initialValue: forceValueToSet || options.contains(initialValue)
+                ? initialValue
+                : null,
+            value: forceValueToSet || options.contains(initialValue)
+                ? initialValue
+                : null,
             isValueChanged: false,
             isDirty: rules.hasOnMounted,
             validators: FieldBlocValidators.getValidators(
@@ -41,6 +46,8 @@ class SelectFieldBloc<Value>
           ),
           defaultValue: null,
         );
+
+  final bool forceValueToSet;
 
   List<Value> get options => state.options;
 
@@ -70,9 +77,10 @@ class SelectFieldBloc<Value>
 
   @override
   void emit(SelectFieldBlocState<Value> state) {
-    if (initialValue != state.initialValue ||
-        value != state.value ||
-        options != state.options) {
+    if (!forceValueToSet &&
+        (initialValue != state.initialValue ||
+            value != state.value ||
+            options != state.options)) {
       state = state.copyWith(
         initialValue: state.options.contains(state.initialValue)
             ? state.initialValue

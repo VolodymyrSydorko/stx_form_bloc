@@ -17,11 +17,16 @@ class MultiSelectFieldBloc<Value>
     Set<ValidationType> rules = const {},
     List<Value> options = const [],
     dynamic data,
+    this.forceValueToSet = false,
   }) : super(
           initialState: MultiSelectFieldBlocState(
             name: FieldBlocUtils.generateName(name),
-            initialValue: initialValue.intersect(options).toList(),
-            value: initialValue.intersect(options).toList(),
+            initialValue: forceValueToSet
+                ? initialValue
+                : initialValue.intersect(options).toList(),
+            value: forceValueToSet
+                ? initialValue
+                : initialValue.intersect(options).toList(),
             isValueChanged: false,
             isDirty: rules.hasOnMounted,
             validators: FieldBlocValidators.getValidators(
@@ -42,6 +47,8 @@ class MultiSelectFieldBloc<Value>
           ),
           defaultValue: const [],
         );
+
+  final bool forceValueToSet;
 
   List<Value> get options => state.options;
 
@@ -75,9 +82,10 @@ class MultiSelectFieldBloc<Value>
 
   @override
   void emit(MultiSelectFieldBlocState<Value> state) {
-    if (initialValue != state.initialValue ||
-        value != state.value ||
-        options != state.options) {
+    if (!forceValueToSet &&
+        (initialValue != state.initialValue ||
+            value != state.value ||
+            options != state.options)) {
       state = state.copyWith(
           initialValue: state.initialValue.intersect(state.options).toList(),
           value: state.value.intersect(state.options).toList());
