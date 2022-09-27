@@ -15,6 +15,10 @@ class TextFieldBlocState extends FieldBlocState<String?> {
     super.formBloc,
   });
 
+  int? get valueToInt => int.tryParse(value ?? '');
+
+  double? get valueToDouble => double.tryParse(value ?? '');
+
   @override
   TextFieldBlocState copyWith({
     Object? initialValue = empty,

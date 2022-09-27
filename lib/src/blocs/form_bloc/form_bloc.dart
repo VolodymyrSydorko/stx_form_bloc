@@ -107,7 +107,9 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
 
   FutureOr<void> onSubmit();
 
-  FutureOr<void> onCancel() {}
+  FutureOr<void> onCancel() {
+    emitCancelled();
+  }
 
   void emitInitial() => emit(state.copyWith(status: FormStatus.initial));
   void emitLoading() => emit(state.copyWith(status: FormStatus.loading));

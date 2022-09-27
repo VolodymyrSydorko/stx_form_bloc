@@ -37,4 +37,8 @@ class TextFieldBloc extends SingleFieldBloc<String?, TextFieldBlocState> {
           ),
           defaultValue: null,
         );
+
+  int? get valueToInt => state.valueToInt;
+
+  double? get valueToDouble => state.valueToDouble;
 }

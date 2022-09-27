@@ -1,3 +1,8 @@
+## 2.0.1
+- Added clearRules and clearValidators method
+- Revert deletion valueToInt and valueToDouble in TextFieldBloc
+- Fixed cancellation
+
 ## 2.0.0
 - Deleted emitLoading() in the submit method.
 - Renamed "items" to "options" in SelectFieldBloc and MultiSelectFieldBloc.
