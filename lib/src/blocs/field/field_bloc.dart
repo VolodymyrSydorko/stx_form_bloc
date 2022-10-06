@@ -35,6 +35,14 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
 
   final Value defaultValue;
 
+  late Stream<Value> valueStream = stream
+      .transform<Value>(
+        StreamTransformer.fromHandlers(
+          handleData: (state, sink) => sink.add(state.value),
+        ),
+      )
+      .distinct();
+
   Value get value => state.value;
   Value get initialValue => state.initialValue;
 
@@ -163,7 +171,7 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
 
   void changeValidators(
     Set<Validator<Value>> validators, {
-    bool forceValidation = true,
+    bool forceValidation = false,
   }) {
     emit(state.copyWith(validators: validators) as State);
 

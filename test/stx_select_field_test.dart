@@ -37,6 +37,7 @@ void main() {
       forceValueToSet: true,
     );
 
+    expect(field.state.initialValue, initialValue);
     expect(field.state.value, initialValue);
     expect(field.state.options, invalidOptions);
   });
@@ -79,6 +80,7 @@ void main() {
 
     field.changeValue(invalidValue);
 
+    expect(field.state.initialValue, initialValue);
     expect(field.state.value, invalidValue);
     expect(field.state.options, options);
   });

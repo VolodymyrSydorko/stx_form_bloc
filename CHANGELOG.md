@@ -1,3 +1,7 @@
+## 2.0.3
+- Added "valueStream" to FieldBloc.
+- Added "subscriptions" to FormBloc.
+
 ## 2.0.2
 - Added "forceValueToSet" property in SelectFieldBloc and MultiSelectFieldBloc.
 

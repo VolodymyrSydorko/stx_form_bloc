@@ -7,7 +7,7 @@ import 'package:stx_form_bloc/src/blocs/field/field_bloc.dart';
 part 'form_bloc_state.dart';
 part 'form_bloc_utils.dart';
 
-abstract class FormBloc<SuccessResponse, FailureResponse>
+class FormBloc<SuccessResponse, FailureResponse>
     extends Cubit<FormBlocState<SuccessResponse, FailureResponse>> {
   FormBloc({
     bool isEditing = false,
@@ -26,6 +26,8 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
   bool get isNotValid => !isValid;
 
   Map<String, FieldBloc> get fields => state.fields;
+
+  List<StreamSubscription> subscriptions = [];
 
   FutureOr<void> initialize({Map<String, dynamic>? params}) {
     return onInitialize(params ?? {});
@@ -103,9 +105,20 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
     );
   }
 
+  void addSubscription(StreamSubscription subscription) =>
+      subscriptions.add(subscription);
+  void addSubscriptions(Iterable<StreamSubscription> subscriptions) =>
+      this.subscriptions.addAll(subscriptions);
+
+  void cancelAllSubscriptions() {
+    for (var s in subscriptions) {
+      s.cancel();
+    }
+  }
+
   FutureOr<void> onInitialize(Map<String, dynamic> params) {}
 
-  FutureOr<void> onSubmit();
+  FutureOr<void> onSubmit() {}
 
   FutureOr<void> onCancel() {
     emitCancelled();
@@ -151,6 +164,8 @@ abstract class FormBloc<SuccessResponse, FailureResponse>
     for (var f in fields.values) {
       await f.close();
     }
+
+    cancelAllSubscriptions();
 
     return super.close();
   }
