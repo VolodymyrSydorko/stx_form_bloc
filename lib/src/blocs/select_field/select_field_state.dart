@@ -14,9 +14,11 @@ class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
     super.data,
     super.formBloc,
     required this.options,
+    required this.disabledOptions,
   });
 
   final List<Value> options;
+  final List<Value> disabledOptions;
 
   @override
   SelectFieldBlocState<Value> copyWith({
@@ -31,6 +33,7 @@ class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
     Object? data = empty,
     Object? formBloc = empty,
     List<Value>? options,
+    List<Value>? disabledOptions,
   }) {
     return SelectFieldBlocState<Value>(
       name: name,
@@ -46,9 +49,10 @@ class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
       data: data == empty ? this.data : data,
       formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
       options: options ?? this.options,
+      disabledOptions: disabledOptions ?? this.disabledOptions,
     );
   }
 
   @override
-  List<Object?> get props => [...super.props, options];
+  List<Object?> get props => [...super.props, options, disabledOptions];
 }

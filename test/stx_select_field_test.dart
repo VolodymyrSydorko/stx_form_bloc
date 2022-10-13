@@ -3,8 +3,11 @@ import 'package:test/test.dart';
 
 void main() {
   final initialValue = 500;
+  final disabledValue = 50;
   final invalidValue = 2000;
   final List<int> options = Iterable.generate(1000, (index) => index).toList();
+  final List<int> disabledOptions =
+      Iterable.generate(100, (index) => index).toList();
   final List<int> invalidOptions =
       Iterable.generate(100, (index) => index).toList();
 
@@ -100,5 +103,48 @@ void main() {
     expect(field.state.isRequired, isTrue);
     expect(field.state.error, isNull);
     expect(field.state.displayError, isNull);
+  });
+
+  test("Disabled options 1", () {
+    final field = SelectFieldBloc<int>(
+      initialValue: initialValue,
+      options: options,
+      disabledOptions: disabledOptions,
+    );
+
+    expect(field.state.initialValue, initialValue);
+    expect(field.state.value, initialValue);
+    expect(field.state.options, options);
+    expect(field.state.disabledOptions, disabledOptions);
+
+    field.changeValue(disabledValue);
+
+    expect(field.state.value, isNull);
+
+    field.clearDisabledOptions();
+
+    expect(field.state.disabledOptions, isEmpty);
+
+    field.changeValue(disabledValue);
+
+    expect(field.state.value, disabledValue);
+  });
+
+  test("Disabled options 2", () {
+    final field = SelectFieldBloc<int>(
+      initialValue: initialValue,
+      options: options,
+      disabledOptions: disabledOptions,
+      forceValueToSet: true,
+    );
+
+    expect(field.state.initialValue, initialValue);
+    expect(field.state.value, initialValue);
+    expect(field.state.options, options);
+    expect(field.state.disabledOptions, disabledOptions);
+
+    field.changeValue(disabledValue);
+
+    expect(field.state.value, disabledValue);
   });
 }

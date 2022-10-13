@@ -1,3 +1,4 @@
+import 'package:darq/darq.dart';
 import 'package:stx_form_bloc/src/blocs/field/field_bloc.dart';
 import 'package:stx_form_bloc/src/blocs/form_bloc/form_bloc.dart';
 import 'package:stx_form_bloc/src/extension.dart';
@@ -15,15 +16,18 @@ class SelectFieldBloc<Value>
     Set<Validator<Value?>>? customValidators,
     Set<ValidationType> rules = const {},
     List<Value> options = const [],
+    List<Value> disabledOptions = const [],
     dynamic data,
     this.forceValueToSet = false,
   }) : super(
           initialState: SelectFieldBlocState(
             name: FieldBlocUtils.generateName(name),
-            initialValue: forceValueToSet || options.contains(initialValue)
+            initialValue: forceValueToSet ||
+                    options.except(disabledOptions).contains(initialValue)
                 ? initialValue
                 : null,
-            value: forceValueToSet || options.contains(initialValue)
+            value: forceValueToSet ||
+                    options.except(disabledOptions).contains(initialValue)
                 ? initialValue
                 : null,
             isValueChanged: false,
@@ -43,6 +47,7 @@ class SelectFieldBloc<Value>
             enabled: enabled,
             data: data,
             options: options,
+            disabledOptions: disabledOptions,
           ),
           defaultValue: null,
         );
@@ -50,6 +55,9 @@ class SelectFieldBloc<Value>
   final bool forceValueToSet;
 
   List<Value> get options => state.options;
+  List<Value> get disabledOptions => state.disabledOptions;
+
+  Iterable<Value> get availableOptions => options.except(disabledOptions);
 
   void changeOptions(List<Value> options) {
     emit(state.copyWith(
@@ -75,17 +83,25 @@ class SelectFieldBloc<Value>
 
   void clearOptions() => changeOptions([]);
 
+  void changeDisabledOptions(List<Value> disabledOptions) {
+    emit(state.copyWith(disabledOptions: disabledOptions));
+  }
+
+  void clearDisabledOptions() => changeDisabledOptions([]);
+
   @override
   void emit(SelectFieldBlocState<Value> state) {
     if (!forceValueToSet &&
         (initialValue != state.initialValue ||
             value != state.value ||
             options != state.options)) {
+      final availableOptions = state.options.except(state.disabledOptions);
+
       state = state.copyWith(
-        initialValue: state.options.contains(state.initialValue)
+        initialValue: availableOptions.contains(state.initialValue)
             ? state.initialValue
             : null,
-        value: state.options.contains(state.value) ? state.value : null,
+        value: availableOptions.contains(state.value) ? state.value : null,
       );
     }
 

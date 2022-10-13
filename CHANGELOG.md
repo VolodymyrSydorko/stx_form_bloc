@@ -1,3 +1,6 @@
+## 2.0.4
+- Added "disabled options" property to SelectFieldBlocState and MultiSelectFieldBlocState.
+
 ## 2.0.3
 - Added "valueStream" to FieldBloc.
 - Added "subscriptions" to FormBloc.
