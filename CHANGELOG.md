@@ -1,3 +1,6 @@
+## 2.0.5
+- Keep loading status when change the fields.
+
 ## 2.0.4
 - Added "disabled options" property to SelectFieldBlocState and MultiSelectFieldBlocState.
 

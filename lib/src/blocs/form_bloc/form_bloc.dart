@@ -82,7 +82,8 @@ class FormBloc<SuccessResponse, FailureResponse>
 
     emit(
       state.copyWith(
-        status: FormStatus.initial,
+        status:
+            state.status.isLoading ? FormStatus.loading : FormStatus.initial,
         fields: newFields,
       ),
     );
@@ -99,7 +100,8 @@ class FormBloc<SuccessResponse, FailureResponse>
     }
     emit(
       state.copyWith(
-        status: FormStatus.initial,
+        status:
+            state.status.isLoading ? FormStatus.loading : FormStatus.initial,
         fields: newFields,
       ),
     );
