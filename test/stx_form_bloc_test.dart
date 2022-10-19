@@ -11,21 +11,60 @@ import 'package:test/test.dart';
 class MockStreamSubscription extends Mock implements StreamSubscription {}
 
 void main() {
-  late List<MockStreamSubscription> subscriptions;
+  group("FormBloc fields test ", () {
+    blocTest(
+      "Initial fields",
+      build: () => FormBloc(),
+      verify: (bloc) {
+        expect(bloc.fields.length, 0);
+      },
+    );
 
-  setUp(() {
-    subscriptions = [
-      MockStreamSubscription(),
-      MockStreamSubscription(),
-      MockStreamSubscription(),
-    ];
+    blocTest(
+      "Add fields",
+      build: () => FormBloc(),
+      act: (bloc) {
+        bloc.addField(TextFieldBloc());
+        bloc.addFields([
+          TextFieldBloc(),
+          TextFieldBloc(),
+        ]);
+      },
+      verify: (bloc) {
+        expect(bloc.fields.length, 3);
+      },
+    );
 
-    for (var sub in subscriptions) {
-      when(() => sub.cancel()).thenAnswer((_) => Future.value());
-    }
+    blocTest(
+      "Keep loading status when add/remove field",
+      build: () => FormBloc(),
+      act: (bloc) {
+        bloc.emitLoading();
+
+        bloc.addField(TextFieldBloc());
+      },
+      verify: (bloc) {
+        expect(bloc.state.status, FormStatus.loading);
+        expect(bloc.fields.length, 1);
+      },
+    );
   });
 
   group("FormBloc subscription test ", () {
+    late List<MockStreamSubscription> subscriptions;
+
+    setUp(() {
+      subscriptions = [
+        MockStreamSubscription(),
+        MockStreamSubscription(),
+        MockStreamSubscription(),
+      ];
+
+      for (var sub in subscriptions) {
+        when(() => sub.cancel()).thenAnswer((_) => Future.value());
+      }
+    });
+
     blocTest(
       "Subscription 1",
       build: () => FormBloc(),
