@@ -95,7 +95,7 @@ void formMain() async {
     ..reset()
     ..start();
 
-  print(formBloc.email.data);
+  print(formBloc.email.extraData);
 
   print('change');
   formBloc.password.changeValue('qwerty12345');

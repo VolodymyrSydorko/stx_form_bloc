@@ -1,7 +1,7 @@
-part of 'boolean_field_bloc.dart';
+part of 'input_field_bloc.dart';
 
-class BooleanFieldBlocState extends FieldBlocState<bool?> {
-  BooleanFieldBlocState({
+class InputFieldBlocState<T> extends FieldBlocState<T> {
+  InputFieldBlocState({
     required super.name,
     required super.initialValue,
     required super.value,
@@ -16,23 +16,23 @@ class BooleanFieldBlocState extends FieldBlocState<bool?> {
   });
 
   @override
-  BooleanFieldBlocState copyWith({
+  InputFieldBlocState<T> copyWith({
     Object? initialValue = empty,
     Object? value = empty,
     bool? isValueChanged,
     bool? isDirty,
-    Set<Validator<bool?>>? validators,
+    Set<Validator<T>>? validators,
     Set<ValidationType>? rules,
     Object? error = empty,
     bool? enabled,
     Object? extraData = empty,
     Object? formBloc = empty,
   }) {
-    return BooleanFieldBlocState(
+    return InputFieldBlocState(
       name: name,
       initialValue:
-          initialValue == empty ? this.initialValue : initialValue as bool?,
-      value: value == empty ? this.value : value as bool?,
+          initialValue == empty ? this.initialValue : initialValue as T,
+      value: value == empty ? this.value : value as T,
       isValueChanged: isValueChanged ?? this.isValueChanged,
       isDirty: isDirty ?? this.isDirty,
       validators: validators ?? this.validators,

@@ -19,23 +19,26 @@ extension ValidationTypeX on Set<ValidationType>? {
 class FieldBlocValidatorsErrors {
   FieldBlocValidatorsErrors._();
 
-  static const String required = 'Field is required';
+  static const _required = 'Field is required';
 
-  static const String email = 'Email is invalid';
+  static const _email = 'Email is invalid';
 
-  static const String passwordMin6Chars =
+  static const _passwordMin6Chars =
       'Password length must be at least 6 characters';
 
-  static const String confirmPassword = 'Confirm Password - Validator Error';
+  static const _confirmPassword = 'Confirm Password - Validator Error';
 }
 
 class FieldBlocValidators {
   FieldBlocValidators._();
 
+  static Validator<dynamic> requiredValidator = required;
+  static Validator<bool?> requiredBooleanValidator = booleanRequired;
+
   static Set<Validator<T>> getValidators<T>(
       Set<Validator<T>>? validators, bool? required) {
     return {
-      if (required == true) FieldBlocValidators.required,
+      if (required == true) requiredValidator,
       ...?validators,
     };
   }
@@ -43,12 +46,12 @@ class FieldBlocValidators {
   static Set<Validator<bool?>> getBooleanValidators(
       Set<Validator<bool?>>? validators, bool? required) {
     return {
-      if (required == true) FieldBlocValidators.booleanRequired,
+      if (required == true) requiredBooleanValidator,
       ...?validators,
     };
   }
 
-  /// Check if the [value] is is not null, not empty or false.
+  /// Check if the [value] is is not null, not empty.
   ///
   /// Returns `null` if is valid.
   ///
@@ -58,7 +61,7 @@ class FieldBlocValidators {
     if (value == null ||
         ((value is Iterable || value is String || value is Map) &&
             value.length == 0)) {
-      return FieldBlocValidatorsErrors.required;
+      return FieldBlocValidatorsErrors._required;
     }
 
     return null;
@@ -69,7 +72,7 @@ class FieldBlocValidators {
       return null;
     }
 
-    return FieldBlocValidatorsErrors.required;
+    return FieldBlocValidatorsErrors._required;
   }
 
   /// Check if the [string] is an email
@@ -79,6 +82,8 @@ class FieldBlocValidators {
   ///
   /// Returns [FieldBlocValidatorsErrors.email]
   /// if is not valid.
+  @Deprecated(
+      'Use custom implementation of this validator. Will be removed in 4.0.0')
   static String? email(String? string) {
     final emailRegExp =
         RegExp(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$');
@@ -86,7 +91,7 @@ class FieldBlocValidators {
       return null;
     }
 
-    return FieldBlocValidatorsErrors.email;
+    return FieldBlocValidatorsErrors._email;
   }
 
   /// Check if the [string] has min 6 chars
@@ -96,12 +101,14 @@ class FieldBlocValidators {
   ///
   /// Returns [FieldBlocValidatorsErrors.passwordMin6Chars]
   /// if is not valid.
+  @Deprecated(
+      'Use custom implementation of this validator. Will be removed in 4.0.0')
   static String? passwordMin6Chars(String? string) {
     if (string == null || string.isEmpty || string.runes.length >= 6) {
       return null;
     }
 
-    return FieldBlocValidatorsErrors.passwordMin6Chars;
+    return FieldBlocValidatorsErrors._passwordMin6Chars;
   }
 
   /// Check if the `value` of the current [TextFieldBloc] is equals
@@ -120,6 +127,8 @@ class FieldBlocValidators {
   ///
   /// Returns [FieldBlocValidatorsErrors.passwordMin6Chars]
   /// if is not valid.
+  @Deprecated(
+      'Use custom implementation of this validator. Will be removed in 4.0.0')
   static Validator<String?> confirmPassword(
     TextFieldBloc passwordTextFieldBloc,
   ) {
@@ -129,7 +138,7 @@ class FieldBlocValidators {
           confirmPassword == passwordTextFieldBloc.value) {
         return null;
       }
-      return FieldBlocValidatorsErrors.confirmPassword;
+      return FieldBlocValidatorsErrors._confirmPassword;
     };
   }
 }

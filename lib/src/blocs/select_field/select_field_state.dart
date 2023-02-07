@@ -1,6 +1,6 @@
 part of 'select_field_bloc.dart';
 
-class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
+class SelectFieldBlocState<Value> extends InputFieldBlocState<Value?> {
   SelectFieldBlocState({
     required super.name,
     required super.initialValue,
@@ -11,7 +11,7 @@ class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
     required super.rules,
     required super.error,
     required super.enabled,
-    super.data,
+    super.extraData,
     super.formBloc,
     required this.options,
     required this.disabledOptions,
@@ -30,7 +30,7 @@ class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
     Set<ValidationType>? rules,
     Object? error = empty,
     bool? enabled,
-    Object? data = empty,
+    Object? extraData = empty,
     Object? formBloc = empty,
     List<Value>? options,
     List<Value>? disabledOptions,
@@ -46,7 +46,7 @@ class SelectFieldBlocState<Value> extends FieldBlocState<Value?> {
       rules: rules ?? this.rules,
       error: error == empty ? this.error : error as String?,
       enabled: enabled ?? this.enabled,
-      data: data == empty ? this.data : data,
+      extraData: extraData == empty ? this.extraData : extraData,
       formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
       options: options ?? this.options,
       disabledOptions: disabledOptions ?? this.disabledOptions,

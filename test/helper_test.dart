@@ -23,7 +23,7 @@ class HelperTest {
     required bool required,
     required Set<String? Function(dynamic)> customValidators,
     required Set<ValidationType> rules,
-    required dynamic data,
+    required dynamic extraData,
   }) {
     return [
       TextFieldBloc(
@@ -33,7 +33,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
-        data: data,
+        extraData: extraData,
       ),
       NumberFieldBloc(
         name: '2',
@@ -42,7 +42,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
-        data: data,
+        extraData: extraData,
       ),
       DateTimeFieldBloc(
         name: '3',
@@ -51,7 +51,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
-        data: data,
+        extraData: extraData,
       ),
       ListFieldBloc(
         name: '4',
@@ -60,7 +60,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
-        data: data,
+        extraData: extraData,
       ),
       SelectFieldBloc(
         name: '5',
@@ -70,7 +70,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
-        data: data,
+        extraData: extraData,
       ),
       MultiSelectFieldBloc(
         name: '6',
@@ -80,7 +80,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
-        data: data,
+        extraData: extraData,
       ),
       ImageFieldBloc(
         name: '7',
@@ -89,7 +89,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
-        data: data,
+        extraData: extraData,
       ),
       BooleanFieldBloc(
         name: '8',
@@ -98,7 +98,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
-        data: data,
+        extraData: extraData,
       ),
     ];
   }
@@ -109,14 +109,14 @@ class HelperTest {
     required bool required,
     required Set<String? Function(dynamic)> customValidators,
     required Set<ValidationType> rules,
-    required dynamic data,
+    required dynamic extraData,
   }) {
     for (var field in fields) {
       field.changeAvailability(enabled);
       field.changeRequirement(required);
       field.changeValidators(customValidators);
       field.changeRules(rules);
-      field.changeData(data);
+      field.changeExtraData(extraData);
     }
   }
 }

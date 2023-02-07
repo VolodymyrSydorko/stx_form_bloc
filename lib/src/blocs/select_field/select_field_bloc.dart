@@ -1,6 +1,7 @@
 import 'package:darq/darq.dart';
 import 'package:stx_form_bloc/src/blocs/field/field_bloc.dart';
 import 'package:stx_form_bloc/src/blocs/form_bloc/form_bloc.dart';
+import 'package:stx_form_bloc/src/blocs/input_field/input_field_bloc.dart';
 import 'package:stx_form_bloc/src/extension.dart';
 import 'package:stx_form_bloc/src/validators/field_bloc_validators.dart';
 
@@ -17,7 +18,7 @@ class SelectFieldBloc<Value>
     Set<ValidationType> rules = const {},
     List<Value> options = const [],
     List<Value> disabledOptions = const [],
-    dynamic data,
+    dynamic extraData,
     this.forceValueToSet = false,
   }) : super(
           initialState: SelectFieldBlocState(
@@ -45,7 +46,7 @@ class SelectFieldBloc<Value>
               ),
             ),
             enabled: enabled,
-            data: data,
+            extraData: extraData,
             options: options,
             disabledOptions: disabledOptions,
           ),

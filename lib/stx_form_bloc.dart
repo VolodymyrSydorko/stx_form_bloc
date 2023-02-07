@@ -4,6 +4,7 @@ export 'src/blocs/form_bloc/form_bloc.dart';
 export 'src/blocs/field/field_bloc.dart';
 export 'src/validators/field_bloc_validators.dart';
 
+export 'src/blocs/input_field/input_field_bloc.dart';
 export 'src/blocs/text_field/text_field_bloc.dart';
 export 'src/blocs/select_field/select_field_bloc.dart';
 export 'src/blocs/multi_select_field/multi_select_field_bloc.dart';

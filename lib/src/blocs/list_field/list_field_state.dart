@@ -11,7 +11,7 @@ class ListFieldBlocState<T> extends FieldBlocState<List<T>> {
     required super.rules,
     required super.error,
     required super.enabled,
-    super.data,
+    super.extraData,
     super.formBloc,
   });
 
@@ -25,7 +25,7 @@ class ListFieldBlocState<T> extends FieldBlocState<List<T>> {
     Set<ValidationType>? rules,
     Object? error = empty,
     bool? enabled,
-    Object? data = empty,
+    Object? extraData = empty,
     Object? formBloc = empty,
   }) {
     return ListFieldBlocState(
@@ -38,7 +38,7 @@ class ListFieldBlocState<T> extends FieldBlocState<List<T>> {
       rules: rules ?? this.rules,
       error: error == empty ? this.error : error as String?,
       enabled: enabled ?? this.enabled,
-      data: data == empty ? this.data : data,
+      extraData: extraData == empty ? this.extraData : extraData,
       formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
     );
   }

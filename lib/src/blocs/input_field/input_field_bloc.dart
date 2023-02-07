@@ -2,32 +2,33 @@ import 'package:stx_form_bloc/src/blocs/field/field_bloc.dart';
 import 'package:stx_form_bloc/src/blocs/form_bloc/form_bloc.dart';
 import 'package:stx_form_bloc/src/validators/field_bloc_validators.dart';
 
-part 'boolean_field_state.dart';
+part 'input_field_state.dart';
 
-class BooleanFieldBloc extends SingleFieldBloc<bool?, BooleanFieldBlocState> {
-  BooleanFieldBloc({
+class InputFieldBloc<T> extends SingleFieldBloc<T, InputFieldBlocState<T>> {
+  InputFieldBloc({
     String? name,
-    bool? initialValue,
+    required T initialValue,
     bool enabled = true,
     bool? required,
-    Set<Validator<bool?>>? customValidators,
+    Set<Validator<T>>? customValidators,
     Set<ValidationType> rules = const {},
     dynamic extraData,
+    required T defaultValue,
   }) : super(
-          initialState: BooleanFieldBlocState(
+          initialState: InputFieldBlocState<T>(
             name: FieldBlocUtils.generateName(name),
             initialValue: initialValue,
             value: initialValue,
             isValueChanged: false,
             isDirty: rules.hasOnMounted,
-            validators: FieldBlocValidators.getBooleanValidators(
+            validators: FieldBlocValidators.getValidators(
               customValidators,
               required,
             ),
             rules: rules,
             error: FieldBlocUtils.getInitialStateError(
               value: initialValue,
-              validators: FieldBlocValidators.getBooleanValidators(
+              validators: FieldBlocValidators.getValidators(
                 customValidators,
                 required,
               ),
@@ -35,17 +36,6 @@ class BooleanFieldBloc extends SingleFieldBloc<bool?, BooleanFieldBlocState> {
             enabled: enabled,
             extraData: extraData,
           ),
-          defaultValue: null,
+          defaultValue: defaultValue,
         );
-
-  @override
-  void changeRequirement(bool required) {
-    if (isRequired == required) return;
-
-    if (required) {
-      addValidator(FieldBlocValidators.booleanRequired);
-    } else {
-      removeValidator(FieldBlocValidators.booleanRequired);
-    }
-  }
 }

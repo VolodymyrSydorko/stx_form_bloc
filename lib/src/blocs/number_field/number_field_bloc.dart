@@ -1,40 +1,15 @@
-import 'package:stx_form_bloc/src/blocs/field/field_bloc.dart';
-import 'package:stx_form_bloc/src/blocs/form_bloc/form_bloc.dart';
-import 'package:stx_form_bloc/src/validators/field_bloc_validators.dart';
+import 'package:stx_form_bloc/src/blocs/input_field/input_field_bloc.dart';
 
 part 'number_field_state.dart';
 
-class NumberFieldBloc extends SingleFieldBloc<int?, NumberFieldBlocState> {
+class NumberFieldBloc extends InputFieldBloc<int?> {
   NumberFieldBloc({
-    String? name,
-    int? initialValue,
-    bool enabled = true,
-    bool? required,
-    Set<Validator<int?>>? customValidators,
-    Set<ValidationType> rules = const {},
-    dynamic data,
-  }) : super(
-          initialState: NumberFieldBlocState(
-            name: FieldBlocUtils.generateName(name),
-            initialValue: initialValue,
-            value: initialValue,
-            isValueChanged: false,
-            isDirty: rules.hasOnMounted,
-            validators: FieldBlocValidators.getValidators(
-              customValidators,
-              required,
-            ),
-            rules: rules,
-            error: FieldBlocUtils.getInitialStateError(
-              value: initialValue,
-              validators: FieldBlocValidators.getValidators(
-                customValidators,
-                required,
-              ),
-            ),
-            enabled: enabled,
-            data: data,
-          ),
-          defaultValue: null,
-        );
+    super.name,
+    super.initialValue,
+    super.enabled,
+    super.required,
+    super.customValidators,
+    super.rules,
+    super.extraData,
+  }) : super(defaultValue: null);
 }

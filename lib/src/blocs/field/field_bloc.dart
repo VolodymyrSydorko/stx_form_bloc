@@ -13,7 +13,7 @@ part 'field_state.dart';
 mixin FieldBloc<State extends FieldBlocStateBase> on BlocBase<State> {
   String get name => state.name;
 
-  dynamic get data => state.data;
+  dynamic get extraData => state.extraData;
 
   bool validate();
 
@@ -241,8 +241,8 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
     emit(state.copyWith(enabled: enabled) as State);
   }
 
-  void changeData(dynamic data) {
-    emit(state.copyWith(data: data) as State);
+  void changeExtraData(dynamic extraData) {
+    emit(state.copyWith(extraData: extraData) as State);
   }
 
   @override

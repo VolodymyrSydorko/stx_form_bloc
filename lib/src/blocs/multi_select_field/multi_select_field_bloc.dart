@@ -17,7 +17,7 @@ class MultiSelectFieldBloc<Value>
     Set<ValidationType> rules = const {},
     List<Value> options = const [],
     List<Value> disabledOptions = const [],
-    dynamic data,
+    dynamic extraData,
     this.forceValueToSet = false,
   }) : super(
           initialState: MultiSelectFieldBlocState(
@@ -47,7 +47,7 @@ class MultiSelectFieldBloc<Value>
               ),
             ),
             enabled: enabled,
-            data: data,
+            extraData: extraData,
             options: options,
             disabledOptions: disabledOptions,
           ),

@@ -36,7 +36,7 @@ void main() {
         expect(field.state.isValid, isTrue);
         expect(field.state.isNotValid, isFalse);
 
-        expect(field.state.data, isNull);
+        expect(field.state.extraData, isNull);
       }
     });
 
@@ -45,14 +45,14 @@ void main() {
       final required = true;
       final customValidators = <String? Function(dynamic)>{};
       final rules = {ValidationType.onBlur};
-      final data = 1;
+      final extraData = 1;
 
       final allFields = HelperTest.getAllFieldsWithInitialValues(
         enabled: enabled,
         required: required,
         customValidators: customValidators,
         rules: rules,
-        data: data,
+        extraData: extraData,
       );
 
       for (var field in allFields) {
@@ -83,7 +83,7 @@ void main() {
         expect(field.state.isValid, isTrue);
         expect(field.state.isNotValid, isFalse);
 
-        expect(field.state.data, data);
+        expect(field.state.extraData, extraData);
       }
     });
 
@@ -92,21 +92,21 @@ void main() {
       var required = true;
       var customValidators = <String? Function(dynamic)>{};
       var rules = {ValidationType.onBlur};
-      var data = 1;
+      var extraData = 1;
 
       final allFields = HelperTest.getAllFieldsWithInitialValues(
         enabled: enabled,
         required: required,
         customValidators: customValidators,
         rules: rules,
-        data: data,
+        extraData: extraData,
       );
 
       enabled = !enabled;
       required = !required;
       customValidators = {};
       rules = {};
-      data = 1;
+      extraData = 1;
 
       HelperTest.changeState(
         fields: allFields,
@@ -114,7 +114,7 @@ void main() {
         required: required,
         customValidators: customValidators,
         rules: rules,
-        data: data,
+        extraData: extraData,
       );
 
       for (var field in allFields) {
@@ -145,7 +145,7 @@ void main() {
         expect(field.state.isValid, isTrue);
         expect(field.state.isNotValid, isFalse);
 
-        expect(field.state.data, data);
+        expect(field.state.extraData, extraData);
       }
     });
   });
