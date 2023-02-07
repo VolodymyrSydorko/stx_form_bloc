@@ -1,3 +1,9 @@
+## 3.0.0
+- Change data field to extraData
+- Added ability set required validators
+- Added InputFieldBloc
+- Minor changes
+
 ## 2.0.5
 - Keep loading status when change the fields.
 
