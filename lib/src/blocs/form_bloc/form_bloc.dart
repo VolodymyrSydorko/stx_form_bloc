@@ -11,11 +11,14 @@ class FormBloc<SuccessResponse, FailureResponse>
     extends Cubit<FormBlocState<SuccessResponse, FailureResponse>> {
   FormBloc({
     bool isEditing = false,
+    this.customSubmit = true,
   }) : super(
           FormBlocState(
             isEditing: isEditing,
           ),
         );
+
+  final bool customSubmit;
 
   bool get isEditing => state.isEditing;
   bool get isCreating => !state.isEditing;
@@ -37,11 +40,23 @@ class FormBloc<SuccessResponse, FailureResponse>
     emit(_validate());
   }
 
-  FutureOr<void> submit() {
+  FutureOr<void> submit() async {
     emit(_validate());
 
     if (state.status.isValid) {
-      return onSubmit();
+      if (customSubmit) {
+        return onSubmit();
+      } else {
+        emitLoading();
+
+        try {
+          await onSubmit();
+        } catch (error, stackTrace) {
+          addError(error, stackTrace);
+
+          emitFailure();
+        }
+      }
     }
   }
 

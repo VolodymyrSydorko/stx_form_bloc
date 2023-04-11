@@ -1,3 +1,6 @@
+## 3.0.2
+- Added customSubmit field to the FormBloc class
+
 ## 3.0.1
 - Made the error parameter optional in the emitFailure method
 
