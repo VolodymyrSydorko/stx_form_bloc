@@ -134,7 +134,7 @@ class FormBloc<SuccessResponse, FailureResponse>
           status: FormStatus.success,
         ),
       );
-  void emitFailure(FailureResponse error) => emit(
+  void emitFailure([FailureResponse? error]) => emit(
         state.copyWith(
           error: error,
           status: FormStatus.failure,

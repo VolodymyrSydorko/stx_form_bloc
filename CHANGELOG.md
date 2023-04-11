@@ -1,3 +1,6 @@
+## 3.0.1
+- Made the error parameter optional in the emitFailure method
+
 ## 3.0.0
 - Change data field to extraData
 - Added ability set required validators
