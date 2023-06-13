@@ -22,6 +22,8 @@ void main() {
         expect(field.state.enabled, isTrue);
         expect(field.state.disabled, isFalse);
 
+        expect(field.state.loading, isFalse);
+
         //throws error // can't cast to dynamic
         //expect(field.state.validators, isNotEmpty);
         expect(field.state.isRequired, isFalse);
@@ -45,6 +47,7 @@ void main() {
       final required = true;
       final customValidators = <String? Function(dynamic)>{};
       final rules = {ValidationType.onBlur};
+      final loading = true;
       final extraData = 1;
 
       final allFields = HelperTest.getAllFieldsWithInitialValues(
@@ -52,6 +55,7 @@ void main() {
         required: required,
         customValidators: customValidators,
         rules: rules,
+        loading: loading,
         extraData: extraData,
       );
 
@@ -68,6 +72,8 @@ void main() {
 
         expect(field.state.enabled, enabled);
         expect(field.state.disabled, !enabled);
+
+        expect(field.state.loading, loading);
 
         //throws error // can't cast to dynamic
         //expect(field.state.validators, isNotEmpty);
@@ -92,6 +98,7 @@ void main() {
       var required = true;
       var customValidators = <String? Function(dynamic)>{};
       var rules = {ValidationType.onBlur};
+      var loading = false;
       var extraData = 1;
 
       final allFields = HelperTest.getAllFieldsWithInitialValues(
@@ -99,10 +106,12 @@ void main() {
         required: required,
         customValidators: customValidators,
         rules: rules,
+        loading: loading,
         extraData: extraData,
       );
 
       enabled = !enabled;
+      loading = !loading;
       required = !required;
       customValidators = {};
       rules = {};
@@ -114,6 +123,7 @@ void main() {
         required: required,
         customValidators: customValidators,
         rules: rules,
+        loading: loading,
         extraData: extraData,
       );
 
@@ -130,6 +140,8 @@ void main() {
 
         expect(field.state.enabled, enabled);
         expect(field.state.disabled, !enabled);
+
+        expect(field.state.loading, loading);
 
         //throws error // can't cast to dynamic
         //expect(field.state.validators.isEmpty, true);

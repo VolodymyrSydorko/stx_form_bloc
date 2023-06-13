@@ -10,6 +10,7 @@ class NumberFieldBloc extends InputFieldBloc<int?> {
     super.required,
     super.customValidators,
     super.rules,
+    super.loading,
     super.extraData,
   }) : super(defaultValue: null);
 }

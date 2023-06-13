@@ -12,6 +12,7 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
     String? name,
     List<T> initialValue = const [],
     bool enabled = true,
+    bool loading = false,
     bool? required,
     Set<Validator<List<T>>>? customValidators,
     Set<ValidationType> rules = const {},
@@ -36,14 +37,11 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
               ),
             ),
             enabled: enabled,
+            loading: loading,
             extraData: extraData,
           ),
           defaultValue: [],
         );
-
-  set value(List<T> newValue) {
-    changeValue(newValue);
-  }
 
   void add(T newValue) {
     value = [...value, newValue];

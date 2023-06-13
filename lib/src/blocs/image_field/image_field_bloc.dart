@@ -14,6 +14,7 @@ class ImageFieldBloc extends InputFieldBloc<Uint8List?> {
     super.required,
     super.customValidators,
     super.rules,
+    super.loading,
     super.extraData,
   }) : super(defaultValue: null);
 

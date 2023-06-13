@@ -57,11 +57,29 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   bool get enabled => state.enabled;
   bool get disabled => state.disabled;
 
+  bool get isLoading => state.loading;
+
   bool get isValid => state.isValid;
   bool get isNotValid => state.isNotValid;
 
   String? get error => state.error;
   String? get displayError => state.displayError;
+
+  set value(Value value) {
+    changeValue(value);
+  }
+
+  set required(bool required) {
+    changeRequirement(required);
+  }
+
+  set enabled(bool enabled) {
+    changeAvailability(enabled);
+  }
+
+  set loading(bool loading) {
+    changeLoading(loading);
+  }
 
   String? _getError(Value value) {
     String? error;
@@ -239,6 +257,10 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
 
   void changeAvailability(bool enabled) {
     emit(state.copyWith(enabled: enabled) as State);
+  }
+
+  void changeLoading(bool loading) {
+    emit(state.copyWith(loading: loading) as State);
   }
 
   void changeExtraData(dynamic extraData) {

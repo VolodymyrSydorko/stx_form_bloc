@@ -25,6 +25,7 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
     required this.rules,
     required this.error,
     required this.enabled,
+    required this.loading,
     required this.extraData,
     required this.formBloc,
   });
@@ -47,6 +48,8 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
   final String? error;
 
   final bool enabled;
+
+  final bool loading;
 
   @override
   final dynamic extraData;
@@ -79,6 +82,7 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
     Set<ValidationType>? rules,
     String? error,
     bool? enabled,
+    bool? loading,
     dynamic extraData,
     FormBloc? formBloc,
   });
@@ -93,6 +97,7 @@ abstract class FieldBlocState<Value> extends Equatable with FieldBlocStateBase {
         rules,
         error,
         enabled,
+        loading,
         extraData,
         formBloc,
       ];

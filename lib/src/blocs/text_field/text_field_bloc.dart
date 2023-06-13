@@ -10,6 +10,7 @@ class TextFieldBloc extends InputFieldBloc<String?> {
     super.required,
     super.customValidators,
     super.rules,
+    super.loading,
     super.extraData,
   }) : super(defaultValue: null);
 

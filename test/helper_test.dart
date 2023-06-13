@@ -21,6 +21,7 @@ class HelperTest {
   static List<SingleFieldBloc> getAllFieldsWithInitialValues({
     required bool enabled,
     required bool required,
+    required bool loading,
     required Set<String? Function(dynamic)> customValidators,
     required Set<ValidationType> rules,
     required dynamic extraData,
@@ -33,6 +34,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
+        loading: loading,
         extraData: extraData,
       ),
       NumberFieldBloc(
@@ -42,6 +44,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
+        loading: loading,
         extraData: extraData,
       ),
       DateTimeFieldBloc(
@@ -51,6 +54,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
+        loading: loading,
         extraData: extraData,
       ),
       ListFieldBloc(
@@ -60,6 +64,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
+        loading: loading,
         extraData: extraData,
       ),
       SelectFieldBloc(
@@ -70,6 +75,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
+        loading: loading,
         extraData: extraData,
       ),
       MultiSelectFieldBloc(
@@ -80,6 +86,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
+        loading: loading,
         extraData: extraData,
       ),
       ImageFieldBloc(
@@ -89,6 +96,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
+        loading: loading,
         extraData: extraData,
       ),
       BooleanFieldBloc(
@@ -98,6 +106,7 @@ class HelperTest {
         required: required,
         customValidators: customValidators,
         rules: rules,
+        loading: loading,
         extraData: extraData,
       ),
     ];
@@ -107,13 +116,15 @@ class HelperTest {
     required List<SingleFieldBloc> fields,
     required bool enabled,
     required bool required,
+    required bool loading,
     required Set<String? Function(dynamic)> customValidators,
     required Set<ValidationType> rules,
     required dynamic extraData,
   }) {
     for (var field in fields) {
-      field.changeAvailability(enabled);
-      field.changeRequirement(required);
+      field.enabled = enabled;
+      field.required = required;
+      field.loading = loading;
       field.changeValidators(customValidators);
       field.changeRules(rules);
       field.changeExtraData(extraData);
