@@ -30,6 +30,14 @@ class FormBloc<SuccessResponse, FailureResponse>
 
   Map<String, FieldBloc> get fields => state.fields;
 
+  late Stream<FormStatus> statusStream = stream
+      .transform<FormStatus>(
+        StreamTransformer.fromHandlers(
+          handleData: (state, sink) => sink.add(state.status),
+        ),
+      )
+      .distinct();
+
   List<StreamSubscription> subscriptions = [];
 
   FutureOr<void> initialize({Map<String, dynamic>? params}) {

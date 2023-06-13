@@ -1,3 +1,6 @@
+## 3.0.4
+- Added statusStream to the FormBloc class
+
 ## 3.0.3
 - Added loading field to the FieldBlocState class
 - Added setters - value, loading, enabled, and required to the SingleFieldBloc class
