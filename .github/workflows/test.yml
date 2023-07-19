@@ -1,6 +1,14 @@
 name: Run tests
 
 on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - README.md
+      - CHANGELOG.md
+      - .gitignore
+      - .github/**
   pull_request:
 
 jobs:
