@@ -1,7 +1,7 @@
 import 'package:stx_form_bloc/stx_form_bloc.dart';
 import 'package:test/test.dart';
 
-import 'helper_test.dart';
+import 'helpers.dart';
 
 void main() {
   group("General SingleFieldBloc tests", () {
