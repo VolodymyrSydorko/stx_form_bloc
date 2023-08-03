@@ -1,3 +1,6 @@
+## 3.1.1
+- Increase intl version to 1.8.0
+
 ## 3.1.0
 - Dart 3 support
 
