@@ -1,3 +1,6 @@
+## 3.1.0
+- Dart 3 support
+
 ## 3.0.4
 - Added statusStream to the FormBloc class
 
