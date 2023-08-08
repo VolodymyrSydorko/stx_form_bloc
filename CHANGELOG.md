@@ -1,3 +1,6 @@
+## 3.1.2
+- Update dependencies
+
 ## 3.1.1
 - Increase intl version to 1.8.0
 
