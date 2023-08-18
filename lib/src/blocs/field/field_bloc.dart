@@ -213,13 +213,19 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
 
   void clearValidators() => changeValidators({});
 
-  void changeRequirement(bool required) {
+  void changeRequirement(bool required, {bool forceValidation = false}) {
     if (isRequired == required) return;
 
     if (required) {
-      addValidator(FieldBlocValidators.required);
+      addValidator(
+        FieldBlocValidators.required,
+        forceValidation: forceValidation,
+      );
     } else {
-      removeValidator(FieldBlocValidators.required);
+      removeValidator(
+        FieldBlocValidators.required,
+        forceValidation: forceValidation,
+      );
     }
   }
 

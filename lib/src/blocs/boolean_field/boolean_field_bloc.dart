@@ -41,13 +41,19 @@ class BooleanFieldBloc extends SingleFieldBloc<bool?, BooleanFieldBlocState> {
         );
 
   @override
-  void changeRequirement(bool required) {
+  void changeRequirement(bool required, {bool forceValidation = false}) {
     if (isRequired == required) return;
 
     if (required) {
-      addValidator(FieldBlocValidators.booleanRequired);
+      addValidator(
+        FieldBlocValidators.booleanRequired,
+        forceValidation: forceValidation,
+      );
     } else {
-      removeValidator(FieldBlocValidators.booleanRequired);
+      removeValidator(
+        FieldBlocValidators.booleanRequired,
+        forceValidation: forceValidation,
+      );
     }
   }
 }

@@ -67,6 +67,10 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
     value = [...value]..remove(item);
   }
 
+  void removeWhere(bool Function(T element) test) {
+    value = [...value]..removeWhere(test);
+  }
+
   void replaceAt(int index, T newValue) {
     value = [...value]..[index] = newValue;
   }
