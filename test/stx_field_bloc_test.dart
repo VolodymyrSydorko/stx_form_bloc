@@ -238,8 +238,18 @@ void main() {
       expect(textField.state.displayError, isNull);
     });
 
-    //check validation errors
+    //change requirement and force validation
     test("Requirement4", () {
+      final textField = TextFieldBloc();
+      textField.changeRequirement(true, forceValidation: true);
+
+      expect(textField.state.isRequired, true);
+      expect(textField.state.error, isNotNull);
+      expect(textField.state.displayError, isNotNull);
+    });
+
+    //check validation errors
+    test("Requirement5", () {
       final textField =
           TextFieldBloc(initialValue: initialValue, required: true);
 

@@ -1,3 +1,7 @@
+## 3.1.3
+- Add "removeWhere" method to ListFieldBloc
+- Add "forceValidation" parameter to the changeRequirement method
+
 ## 3.1.2
 - Update dependencies
 
