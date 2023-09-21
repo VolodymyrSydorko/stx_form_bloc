@@ -187,8 +187,32 @@ void main() {
       expect(textField.state.isValueChanged, true);
     });
 
-    //clear value
+    //update initial
     test("Value3", () {
+      final textField =
+          TextFieldBloc(required: true, initialValue: initialValue);
+      textField.updateInitial(updatedValue);
+
+      expect(textField.state.initialValue, updatedValue);
+      expect(textField.state.value, updatedValue);
+      expect(textField.state.isInitial, true);
+      expect(textField.state.isValueChanged, false);
+    });
+
+    //update initial with error
+    test("Value4", () {
+      final textField = TextFieldBloc(required: true, initialValue: null);
+      textField.updateInitial(initialValue);
+
+      expect(textField.state.initialValue, initialValue);
+      expect(textField.state.value, initialValue);
+      expect(textField.state.isInitial, true);
+      expect(textField.state.isValueChanged, false);
+      expect(textField.state.error, isNull);
+    });
+
+    //clear value
+    test("Value5", () {
       final textField = TextFieldBloc(initialValue: initialValue);
       textField.clear();
 
@@ -199,7 +223,7 @@ void main() {
     });
 
     //reset value
-    test("Value4", () {
+    test("Value6", () {
       final textField = TextFieldBloc(initialValue: initialValue);
       textField.changeValue(updatedValue);
       textField.reset();

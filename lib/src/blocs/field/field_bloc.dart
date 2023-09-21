@@ -113,7 +113,7 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   void updateInitial(Value value, {bool forceChange = false}) {
     if (!forceChange && disabled) return;
 
-    final error = _getError(state.value);
+    final error = _getError(value);
 
     emit(state.copyWith(
       initialValue: value,
