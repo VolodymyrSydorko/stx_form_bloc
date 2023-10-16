@@ -1,3 +1,8 @@
+## 3.1.5
+- Added "readOnly" property to FieldBloc state.
+- Added "data" property to FieldBloc state.
+- Added missed setters
+
 ## 3.1.4
 - Fix UpdateInitial
 
