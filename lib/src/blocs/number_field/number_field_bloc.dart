@@ -7,10 +7,12 @@ class NumberFieldBloc extends InputFieldBloc<int?> {
     super.name,
     super.initialValue,
     super.enabled,
+    super.readOnly,
     super.required,
     super.customValidators,
     super.rules,
     super.loading,
+    super.data,
     super.extraData,
   }) : super(defaultValue: null);
 }

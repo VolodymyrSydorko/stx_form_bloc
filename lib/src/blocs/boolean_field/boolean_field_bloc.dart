@@ -9,10 +9,12 @@ class BooleanFieldBloc extends SingleFieldBloc<bool?, BooleanFieldBlocState> {
     String? name,
     bool? initialValue,
     bool enabled = true,
+    bool readOnly = false,
     bool loading = false,
     bool? required,
     Set<Validator<bool?>>? customValidators,
     Set<ValidationType> rules = const {},
+    dynamic data,
     dynamic extraData,
   }) : super(
           initialState: BooleanFieldBlocState(
@@ -34,7 +36,9 @@ class BooleanFieldBloc extends SingleFieldBloc<bool?, BooleanFieldBlocState> {
               ),
             ),
             enabled: enabled,
+            readOnly: readOnly,
             loading: loading,
+            data: data,
             extraData: extraData,
           ),
           defaultValue: null,

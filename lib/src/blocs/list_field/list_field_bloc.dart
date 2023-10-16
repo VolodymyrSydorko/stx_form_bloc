@@ -12,10 +12,12 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
     String? name,
     List<T> initialValue = const [],
     bool enabled = true,
+    bool readOnly = false,
     bool loading = false,
     bool? required,
     Set<Validator<List<T>>>? customValidators,
     Set<ValidationType> rules = const {},
+    dynamic data,
     dynamic extraData,
   }) : super(
           initialState: ListFieldBlocState(
@@ -37,7 +39,9 @@ class ListFieldBloc<T> extends SingleFieldBloc<List<T>, ListFieldBlocState<T>>
               ),
             ),
             enabled: enabled,
+            readOnly: readOnly,
             loading: loading,
+            data: data,
             extraData: extraData,
           ),
           defaultValue: [],

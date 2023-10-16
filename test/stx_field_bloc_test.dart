@@ -22,6 +22,8 @@ void main() {
         expect(field.state.enabled, isTrue);
         expect(field.state.disabled, isFalse);
 
+        expect(field.state.readOnly, isFalse);
+
         expect(field.state.loading, isFalse);
 
         //throws error // can't cast to dynamic
@@ -44,18 +46,22 @@ void main() {
 
     test("Initial state", () {
       final enabled = false;
+      final readOnly = true;
       final required = true;
       final customValidators = <String? Function(dynamic)>{};
       final rules = {ValidationType.onBlur};
       final loading = true;
+      final data = 1;
       final extraData = 1;
 
       final allFields = HelperTest.getAllFieldsWithInitialValues(
         enabled: enabled,
+        readOnly: readOnly,
         required: required,
         customValidators: customValidators,
         rules: rules,
         loading: loading,
+        data: data,
         extraData: extraData,
       );
 
@@ -72,6 +78,8 @@ void main() {
 
         expect(field.state.enabled, enabled);
         expect(field.state.disabled, !enabled);
+
+        expect(field.state.readOnly, readOnly);
 
         expect(field.state.loading, loading);
 
@@ -89,41 +97,50 @@ void main() {
         expect(field.state.isValid, isTrue);
         expect(field.state.isNotValid, isFalse);
 
+        expect(field.state.data, data);
         expect(field.state.extraData, extraData);
       }
     });
 
     test("Change state", () {
       var enabled = false;
+      var readOnly = true;
       var required = true;
       var customValidators = <String? Function(dynamic)>{};
       var rules = {ValidationType.onBlur};
       var loading = false;
+      var data = 1;
       var extraData = 1;
 
       final allFields = HelperTest.getAllFieldsWithInitialValues(
         enabled: enabled,
+        readOnly: readOnly,
         required: required,
         customValidators: customValidators,
         rules: rules,
         loading: loading,
+        data: data,
         extraData: extraData,
       );
 
       enabled = !enabled;
+      readOnly = !readOnly;
       loading = !loading;
       required = !required;
       customValidators = {};
       rules = {};
-      extraData = 1;
+      data = 2;
+      extraData = 2;
 
       HelperTest.changeState(
         fields: allFields,
         enabled: enabled,
+        readOnly: readOnly,
         required: required,
         customValidators: customValidators,
         rules: rules,
         loading: loading,
+        data: data,
         extraData: extraData,
       );
 
@@ -141,6 +158,8 @@ void main() {
         expect(field.state.enabled, enabled);
         expect(field.state.disabled, !enabled);
 
+        expect(field.state.readOnly, readOnly);
+
         expect(field.state.loading, loading);
 
         //throws error // can't cast to dynamic
@@ -157,6 +176,7 @@ void main() {
         expect(field.state.isValid, isTrue);
         expect(field.state.isNotValid, isFalse);
 
+        expect(field.state.data, data);
         expect(field.state.extraData, extraData);
       }
     });
@@ -312,6 +332,49 @@ void main() {
     test("Availability3", () {
       final textField =
           TextFieldBloc(initialValue: initialValue, enabled: false);
+      textField.changeValue(updatedValue, forceChange: true);
+
+      expect(textField.state.initialValue, initialValue);
+      expect(textField.state.value, updatedValue);
+      expect(textField.state.isInitial, isFalse);
+      expect(textField.state.isValueChanged, isTrue);
+    });
+
+    //create a readOnly field
+    test("ReadOnly1", () {
+      final textField = TextFieldBloc(readOnly: true);
+
+      expect(textField.state.readOnly, true);
+    });
+
+    //change initial when the field is readOnly
+    test("ReadOnly2", () {
+      final textField =
+          TextFieldBloc(initialValue: initialValue, readOnly: true);
+      textField.updateInitial(updatedValue);
+
+      expect(textField.state.initialValue, updatedValue);
+      expect(textField.state.value, updatedValue);
+      expect(textField.state.isInitial, isTrue);
+      expect(textField.state.isValueChanged, isFalse);
+    });
+
+    //change value when the field is readOnly
+    test("ReadOnly3", () {
+      final textField =
+          TextFieldBloc(initialValue: initialValue, readOnly: true);
+      textField.changeValue(updatedValue);
+
+      expect(textField.state.initialValue, initialValue);
+      expect(textField.state.value, initialValue);
+      expect(textField.state.isInitial, isTrue);
+      expect(textField.state.isValueChanged, isFalse);
+    });
+
+    //force change value when the field is readOnly
+    test("ReadOnly4", () {
+      final textField =
+          TextFieldBloc(initialValue: initialValue, readOnly: true);
       textField.changeValue(updatedValue, forceChange: true);
 
       expect(textField.state.initialValue, initialValue);

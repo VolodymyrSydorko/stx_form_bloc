@@ -11,10 +11,12 @@ class ImageFieldBloc extends InputFieldBloc<Uint8List?> {
     super.name,
     super.initialValue,
     super.enabled,
+    super.readOnly,
     super.required,
     super.customValidators,
     super.rules,
     super.loading,
+    super.data,
     super.extraData,
   }) : super(defaultValue: null);
 
@@ -22,9 +24,11 @@ class ImageFieldBloc extends InputFieldBloc<Uint8List?> {
     String? name,
     String? initialValue,
     bool enabled = true,
+    bool readOnly = false,
     bool? required,
     Set<Validator<Uint8List?>>? customValidators,
     Set<ValidationType> rules = const {},
+    dynamic data,
     dynamic extraData,
   }) {
     Uint8List? bytes;
@@ -41,9 +45,11 @@ class ImageFieldBloc extends InputFieldBloc<Uint8List?> {
       name: name,
       initialValue: bytes,
       enabled: enabled,
+      readOnly: readOnly,
       required: required,
       customValidators: customValidators,
       rules: rules,
+      data: data,
       extraData: extraData,
     );
   }

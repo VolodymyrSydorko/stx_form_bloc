@@ -8,6 +8,7 @@ class GroupFieldBlocState<T extends FieldBloc> extends MultiFieldBlocState {
     required super.isValid,
     required super.hasDisplayError,
     required this.fieldBlocs,
+    super.data,
     super.extraData,
     super.formBloc,
   });
@@ -16,6 +17,7 @@ class GroupFieldBlocState<T extends FieldBloc> extends MultiFieldBlocState {
   GroupFieldBlocState<T> copyWith({
     bool? isValid,
     bool? hasDisplayError,
+    Object? data = empty,
     Object? extraData = empty,
     Object? formBloc = empty,
     List<T>? fieldBlocs,
@@ -24,6 +26,7 @@ class GroupFieldBlocState<T extends FieldBloc> extends MultiFieldBlocState {
       name: name,
       isValid: isValid ?? this.isValid,
       hasDisplayError: hasDisplayError ?? this.hasDisplayError,
+      data: data == empty ? this.data : data,
       extraData: extraData == empty ? this.extraData : extraData,
       formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
       fieldBlocs: fieldBlocs ?? this.fieldBlocs,
