@@ -57,6 +57,8 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   bool get enabled => state.enabled;
   bool get disabled => state.disabled;
 
+  bool get readOnly => state.readOnly;
+
   bool get isLoading => state.loading;
 
   bool get isValid => state.isValid;
@@ -77,8 +79,20 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
     changeAvailability(enabled);
   }
 
+  set readOnly(bool readOnly) {
+    changeReadOnly(readOnly);
+  }
+
   set loading(bool loading) {
     changeLoading(loading);
+  }
+
+  set data(dynamic data) {
+    changeData(data);
+  }
+
+  set extraData(dynamic extraData) {
+    changeExtraData(extraData);
   }
 
   String? _getError(Value value) {
@@ -125,7 +139,7 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   }
 
   void changeValue(Value value, {bool forceChange = false}) {
-    if (!forceChange && disabled) return;
+    if (!forceChange && (disabled || readOnly)) return;
 
     final error = _getError(value);
 
@@ -139,7 +153,7 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
 
   @override
   void clear({bool force = false}) {
-    if (!force && disabled) return;
+    if (!force && (disabled || readOnly)) return;
 
     final error = _getError(defaultValue);
 
@@ -153,7 +167,7 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
 
   @override
   void reset({bool force = false}) {
-    if (!force && disabled) return;
+    if (!force && (disabled && readOnly)) return;
 
     final value = state.initialValue;
     final error = _getError(value);
@@ -265,8 +279,16 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
     emit(state.copyWith(enabled: enabled) as State);
   }
 
+  void changeReadOnly(bool readOnly) {
+    emit(state.copyWith(readOnly: readOnly) as State);
+  }
+
   void changeLoading(bool loading) {
     emit(state.copyWith(loading: loading) as State);
+  }
+
+  void changeData(dynamic data) {
+    emit(state.copyWith(data: data) as State);
   }
 
   void changeExtraData(dynamic extraData) {
