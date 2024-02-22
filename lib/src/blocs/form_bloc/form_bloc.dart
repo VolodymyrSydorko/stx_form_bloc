@@ -49,7 +49,7 @@ class FormBloc<SuccessResponse, FailureResponse>
   }
 
   FutureOr<void> submit() async {
-    emit(_validate());
+    validate();
 
     if (state.status.isValid) {
       if (customSubmit) {
