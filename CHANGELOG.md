@@ -1,3 +1,6 @@
+## 3.2.1
+- Fixed ordered behavior in MultiSelectFieldBloc
+
 ## 3.2.0
 - Added "ordered" property to MultiSelectFieldBloc state.
 - Made some methods public

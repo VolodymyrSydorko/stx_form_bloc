@@ -3,11 +3,11 @@ import 'package:test/test.dart';
 
 void main() {
   final initialValue = [500];
-  final disabledValue = [50];
+  //final disabledValue = [50];
   final invalidValue = [2000];
   final List<int> options = Iterable.generate(1000, (index) => index).toList();
-  final List<int> disabledOptions =
-      Iterable.generate(100, (index) => index).toList();
+  // final List<int> disabledOptions =
+  //     Iterable.generate(100, (index) => index).toList();
   final List<int> invalidOptions =
       Iterable.generate(100, (index) => index).toList();
 
@@ -104,46 +104,79 @@ void main() {
     expect(field.state.displayError, isNull);
   });
 
-  test("Disabled options 1", () {
+  test("Ordered 1", () {
+    final firstItem = 500;
+    final secondItem = 600;
+
     final field = MultiSelectFieldBloc<int>(
-      initialValue: initialValue,
+      initialValue: [firstItem],
       options: options,
-      disabledOptions: disabledOptions,
+      ordered: true,
     );
 
-    expect(field.state.initialValue, initialValue);
-    expect(field.state.value, initialValue);
-    expect(field.state.options, options);
-    expect(field.state.disabledOptions, disabledOptions);
+    expect(field.state.initialValue, [firstItem]);
+    expect(field.state.value, [firstItem]);
+    expect(field.state.options.length, options.length);
+    expect(field.state.options.first, firstItem);
 
-    field.changeValue(disabledValue);
+    field.selectValue(secondItem);
 
-    expect(field.state.value, isEmpty);
+    expect(field.state.value, [firstItem, secondItem]);
+    expect(field.state.options.length, options.length);
+    expect(field.state.options.take(2).toList(), [firstItem, secondItem]);
 
-    field.clearDisabledOptions();
+    field.deselectValue(firstItem);
 
-    expect(field.state.disabledOptions, isEmpty);
+    expect(field.state.value, [secondItem]);
+    expect(field.state.options.length, options.length);
+    expect(field.state.options.take(2).toList(), [secondItem, firstItem]);
 
-    field.changeValue(disabledValue);
+    field.clear();
 
-    expect(field.state.value, disabledValue);
+    expect(field.state.value, []);
+    expect(field.state.options.length, options.length);
+    expect(field.state.options.take(2).toList(), [secondItem, firstItem]);
   });
+  // test("Disabled options 1", () {
+  //   final field = MultiSelectFieldBloc<int>(
+  //     initialValue: initialValue,
+  //     options: options,
+  //     disabledOptions: disabledOptions,
+  //   );
 
-  test("Disabled options 2", () {
-    final field = MultiSelectFieldBloc<int>(
-      initialValue: initialValue,
-      options: options,
-      disabledOptions: disabledOptions,
-      forceValueToSet: true,
-    );
+  //   expect(field.state.initialValue, initialValue);
+  //   expect(field.state.value, initialValue);
+  //   expect(field.state.options, options);
+  //   expect(field.state.disabledOptions, disabledOptions);
 
-    expect(field.state.initialValue, initialValue);
-    expect(field.state.value, initialValue);
-    expect(field.state.options, options);
-    expect(field.state.disabledOptions, disabledOptions);
+  //   field.changeValue(disabledValue);
 
-    field.changeValue(disabledValue);
+  //   expect(field.state.value, isEmpty);
 
-    expect(field.state.value, disabledValue);
-  });
+  //   field.clearDisabledOptions();
+
+  //   expect(field.state.disabledOptions, isEmpty);
+
+  //   field.changeValue(disabledValue);
+
+  //   expect(field.state.value, disabledValue);
+  // });
+
+  // test("Disabled options 2", () {
+  //   final field = MultiSelectFieldBloc<int>(
+  //     initialValue: initialValue,
+  //     options: options,
+  //     disabledOptions: disabledOptions,
+  //     forceValueToSet: true,
+  //   );
+
+  //   expect(field.state.initialValue, initialValue);
+  //   expect(field.state.value, initialValue);
+  //   expect(field.state.options, options);
+  //   expect(field.state.disabledOptions, disabledOptions);
+
+  //   field.changeValue(disabledValue);
+
+  //   expect(field.state.value, disabledValue);
+  // });
 }

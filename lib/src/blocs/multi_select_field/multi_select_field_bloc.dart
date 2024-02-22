@@ -24,39 +24,35 @@ class MultiSelectFieldBloc<Value>
     this.ordered = false,
     this.forceValueToSet = false,
   }) : super(
-          initialState: MultiSelectFieldBlocState(
-            name: FieldBlocUtils.generateName(name),
-            initialValue: forceValueToSet
-                ? initialValue
-                : initialValue
-                    .intersect(options.except(disabledOptions))
-                    .toList(),
-            value: forceValueToSet
-                ? initialValue
-                : initialValue
-                    .intersect(options.except(disabledOptions))
-                    .toList(),
-            isValueChanged: false,
-            isDirty: rules.hasOnMounted,
-            validators: FieldBlocValidators.getValidators(
-              customValidators,
-              required,
-            ),
-            rules: rules,
-            error: FieldBlocUtils.getInitialStateError(
+          initialState: _validateState(
+            MultiSelectFieldBlocState(
+              name: FieldBlocUtils.generateName(name),
+              initialValue: initialValue,
               value: initialValue,
+              isValueChanged: false,
+              isDirty: rules.hasOnMounted,
               validators: FieldBlocValidators.getValidators(
                 customValidators,
                 required,
               ),
+              rules: rules,
+              error: FieldBlocUtils.getInitialStateError(
+                value: initialValue,
+                validators: FieldBlocValidators.getValidators(
+                  customValidators,
+                  required,
+                ),
+              ),
+              enabled: enabled,
+              readOnly: readOnly,
+              loading: loading,
+              data: data,
+              extraData: extraData,
+              options: options,
+              disabledOptions: disabledOptions,
             ),
-            enabled: enabled,
-            readOnly: readOnly,
-            loading: loading,
-            data: data,
-            extraData: extraData,
-            options: options,
-            disabledOptions: disabledOptions,
+            forceValueToSet,
+            ordered,
           ),
           defaultValue: const [],
         );
@@ -97,25 +93,6 @@ class MultiSelectFieldBloc<Value>
 
   void clearDisabledOptions() => changeDisabledOptions([]);
 
-  @override
-  void changeValue(List<Value> value, {bool forceChange = false}) {
-    if (!forceChange && (disabled || readOnly)) return;
-
-    final error = getError(value);
-
-    emit(
-      state.copyWith(
-        value: value,
-        options: ordered
-            ? [...value.intersect(options), ...options.except(value)]
-            : null,
-        error: error,
-        isValueChanged: true,
-        isDirty: rules.hasOnChange,
-      ),
-    );
-  }
-
   void selectValue(Value valueToSelect) =>
       changeValue([...value, valueToSelect]);
 
@@ -124,19 +101,36 @@ class MultiSelectFieldBloc<Value>
 
   @override
   void emit(MultiSelectFieldBlocState<Value> state) {
-    if (!forceValueToSet &&
-        (initialValue != state.initialValue ||
-            value != state.value ||
-            options != state.options ||
-            disabledOptions != state.disabledOptions)) {
-      final availableOptions = state.options.except(state.disabledOptions);
-
-      state = state.copyWith(
-        initialValue: state.initialValue.intersect(availableOptions).toList(),
-        value: state.value.intersect(availableOptions).toList(),
-      );
+    if (initialValue != state.initialValue ||
+        value != state.value ||
+        options != state.options) {
+      state = _validateState(state, forceValueToSet, ordered);
     }
 
     super.emit(state);
+  }
+
+  static MultiSelectFieldBlocState<Value> _validateState<Value>(
+    MultiSelectFieldBlocState<Value> state,
+    bool forceValueToSet,
+    bool ordered,
+  ) {
+    if (!forceValueToSet) {
+      state = state.copyWith(
+        initialValue: state.initialValue.intersect(state.options).toList(),
+        value: state.value.intersect(state.options).toList(),
+      );
+    }
+
+    if (ordered) {
+      state = state.copyWith(
+        options: [
+          ...state.value.intersect(state.options),
+          ...state.options.except(state.value)
+        ],
+      );
+    }
+
+    return state;
   }
 }
