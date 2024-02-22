@@ -1,3 +1,7 @@
+## 3.2.0
+- Added "ordered" property to MultiSelectFieldBloc state.
+- Made some methods public
+
 ## 3.1.5
 - Added "readOnly" property to FieldBloc state.
 - Added "data" property to FieldBloc state.
