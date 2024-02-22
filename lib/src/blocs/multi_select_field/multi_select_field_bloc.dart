@@ -21,6 +21,7 @@ class MultiSelectFieldBloc<Value>
     List<Value> disabledOptions = const [],
     dynamic data,
     dynamic extraData,
+    this.ordered = false,
     this.forceValueToSet = false,
   }) : super(
           initialState: MultiSelectFieldBlocState(
@@ -60,6 +61,7 @@ class MultiSelectFieldBloc<Value>
           defaultValue: const [],
         );
 
+  final bool ordered;
   final bool forceValueToSet;
 
   List<Value> get options => state.options;
@@ -94,6 +96,25 @@ class MultiSelectFieldBloc<Value>
   }
 
   void clearDisabledOptions() => changeDisabledOptions([]);
+
+  @override
+  void changeValue(List<Value> value, {bool forceChange = false}) {
+    if (!forceChange && (disabled || readOnly)) return;
+
+    final error = getError(value);
+
+    emit(
+      state.copyWith(
+        value: value,
+        options: ordered
+            ? [...value.intersect(options), ...options.except(value)]
+            : null,
+        error: error,
+        isValueChanged: true,
+        isDirty: rules.hasOnChange,
+      ),
+    );
+  }
 
   void selectValue(Value valueToSelect) =>
       changeValue([...value, valueToSelect]);
