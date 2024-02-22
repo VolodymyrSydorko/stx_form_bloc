@@ -95,10 +95,10 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
     changeExtraData(extraData);
   }
 
-  String? _getError(Value value) {
+  String? getError(Value value, {Set<String? Function(Value)>? newValidators}) {
     String? error;
 
-    for (var validator in validators) {
+    for (var validator in newValidators ?? validators) {
       error = validator(value);
       if (error != null) return error;
     }
@@ -106,8 +106,9 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
     return error;
   }
 
-  void _validate({bool? shouldDirty}) {
-    final error = _getError(state.value);
+  @override
+  bool validate({bool? shouldDirty}) {
+    final error = getError(state.value);
 
     emit(
       state.copyWith(
@@ -115,11 +116,6 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
         isDirty: shouldDirty,
       ) as State,
     );
-  }
-
-  @override
-  bool validate() {
-    _validate(shouldDirty: true);
 
     return isValid;
   }
@@ -127,7 +123,7 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   void updateInitial(Value value, {bool forceChange = false}) {
     if (!forceChange && disabled) return;
 
-    final error = _getError(value);
+    final error = getError(value);
 
     emit(state.copyWith(
       initialValue: value,
@@ -141,7 +137,7 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   void changeValue(Value value, {bool forceChange = false}) {
     if (!forceChange && (disabled || readOnly)) return;
 
-    final error = _getError(value);
+    final error = getError(value);
 
     emit(state.copyWith(
       value: value,
@@ -155,7 +151,7 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   void clear({bool force = false}) {
     if (!force && (disabled || readOnly)) return;
 
-    final error = _getError(defaultValue);
+    final error = getError(defaultValue);
 
     emit(state.copyWith(
       value: defaultValue,
@@ -170,7 +166,7 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
     if (!force && (disabled && readOnly)) return;
 
     final value = state.initialValue;
-    final error = _getError(value);
+    final error = getError(value);
 
     emit(state.copyWith(
       value: value,
@@ -205,9 +201,15 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
     Set<Validator<Value>> validators, {
     bool forceValidation = false,
   }) {
-    emit(state.copyWith(validators: validators) as State);
+    final error = getError(state.value, newValidators: validators);
 
-    _validate(shouldDirty: forceValidation);
+    emit(
+      state.copyWith(
+        validators: validators,
+        error: error,
+        isDirty: forceValidation,
+      ) as State,
+    );
   }
 
   void removeValidator(
@@ -323,7 +325,7 @@ class MultiFieldBloc<TState extends MultiFieldBlocState> extends Cubit<TState>
     with FieldBloc<TState> {
   late final StreamSubscription _onValidationStatus;
 
-  MultiFieldBloc(TState initialState) : super(initialState) {
+  MultiFieldBloc(super.initialState) {
     _onValidationStatus = stream.switchMap((state) {
       return MultiFieldBloc.onValidationStatus(state.flatFieldBlocs);
     }).listen((isValid) {

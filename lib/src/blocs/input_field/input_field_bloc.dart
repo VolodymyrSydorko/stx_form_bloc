@@ -16,7 +16,7 @@ class InputFieldBloc<T> extends SingleFieldBloc<T, InputFieldBlocState<T>> {
     Set<ValidationType> rules = const {},
     dynamic data,
     dynamic extraData,
-    required T defaultValue,
+    required super.defaultValue,
   }) : super(
           initialState: InputFieldBlocState<T>(
             name: FieldBlocUtils.generateName(name),
@@ -42,6 +42,5 @@ class InputFieldBloc<T> extends SingleFieldBloc<T, InputFieldBlocState<T>> {
             data: data,
             extraData: extraData,
           ),
-          defaultValue: defaultValue,
         );
 }
