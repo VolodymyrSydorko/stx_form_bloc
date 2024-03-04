@@ -152,4 +152,12 @@ class HelperTest {
       field.changeRules(rules);
     }
   }
+
+  static void validate({
+    required List<SingleFieldBloc> fields,
+  }) {
+    for (var field in fields) {
+      field.validate();
+    }
+  }
 }

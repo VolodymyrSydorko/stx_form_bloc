@@ -180,6 +180,18 @@ void main() {
         expect(field.state.extraData, extraData);
       }
     });
+
+    test("Validate state", () {
+      final allFields = HelperTest.getAllEmptyFields();
+
+      HelperTest.validate(fields: allFields);
+
+      for (var field in allFields) {
+        expect(field.state.isDirty, isTrue);
+        expect(field.state.error, isNull);
+        expect(field.state.displayError, isNull);
+      }
+    });
   });
 
   group("TextFieldBloc tests", () {
@@ -251,6 +263,18 @@ void main() {
       expect(textField.state.initialValue, initialValue);
       expect(textField.state.value, initialValue);
       expect(textField.state.isInitial, true);
+      expect(textField.state.isValueChanged, false);
+    });
+
+    test("Validate1", () {
+      final textField = TextFieldBloc(required: true);
+      final requiredError = 'Field is required';
+
+      textField.validate();
+
+      expect(textField.state.isDirty, isTrue);
+      expect(textField.state.error, requiredError);
+      expect(textField.state.displayError, requiredError);
       expect(textField.state.isValueChanged, false);
     });
 

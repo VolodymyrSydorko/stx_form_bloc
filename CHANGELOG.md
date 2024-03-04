@@ -1,3 +1,6 @@
+## 3.2.2
+- Fixed validate in FieldBloc
+
 ## 3.2.1
 - Fixed ordered behavior in MultiSelectFieldBloc
 

@@ -107,13 +107,13 @@ abstract class SingleFieldBloc<Value, State extends FieldBlocState<Value>>
   }
 
   @override
-  bool validate({bool? shouldDirty}) {
+  bool validate() {
     final error = getError(state.value);
 
     emit(
       state.copyWith(
         error: error,
-        isDirty: shouldDirty,
+        isDirty: true,
       ) as State,
     );
 
