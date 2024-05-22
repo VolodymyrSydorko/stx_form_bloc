@@ -1,3 +1,6 @@
+## 3.3.0
+- Update dependencies
+
 ## 3.2.2
 - Fixed validate in FieldBloc
 
