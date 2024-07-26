@@ -61,12 +61,20 @@ class DateTimeFieldBloc
     emit(state.copyWith(dateFormat: newDateFormat));
   }
 
+  changeFirstDate(DateTime? firstDate) {
+    emit(state.copyWith(firstDate: firstDate));
+  }
+
+  changeLastDate(DateTime? lastDate) {
+    emit(state.copyWith(lastDate: lastDate));
+  }
+
   setFirstDateBloc(DateTimeFieldBloc? firstDateBloc) {
     firstDateSubscription?.cancel();
 
-    firstDateSubscription = firstDateBloc?.stream.listen((state) {
-      if (this.state.firstDate != state.value) {
-        emit(this.state.copyWith(firstDate: state.value));
+    firstDateSubscription = firstDateBloc?.valueStream.listen((date) {
+      if (state.firstDate != date) {
+        emit(state.copyWith(firstDate: date));
       }
     });
   }
@@ -74,9 +82,9 @@ class DateTimeFieldBloc
   setLastDateBloc(DateTimeFieldBloc? lastDateBloc) {
     lastDateSubscription?.cancel();
 
-    lastDateSubscription = lastDateBloc?.stream.listen((state) {
-      if (this.state.lastDate != state.value) {
-        emit(this.state.copyWith(lastDate: state.value));
+    lastDateSubscription = lastDateBloc?.valueStream.listen((date) {
+      if (state.lastDate != state.value) {
+        emit(state.copyWith(lastDate: state.value));
       }
     });
   }

@@ -38,4 +38,40 @@ void main() {
     expect(field.state.toNullableString(), 'September 27');
     expect(field.state.toString(), 'September 27');
   });
+
+  test("FirstDate1", () {
+    final firstDate = DateTime(2024, 1, 1);
+    final field = DateTimeFieldBloc(firstDate: firstDate);
+
+    expect(field.state.firstDate, firstDate);
+    expect(field.state.lastDate, isNull);
+
+    field.changeFirstDate(null);
+
+    expect(field.state.firstDate, isNull);
+    expect(field.state.lastDate, isNull);
+
+    field.changeFirstDate(firstDate);
+
+    expect(field.state.firstDate, firstDate);
+    expect(field.state.lastDate, isNull);
+  });
+
+  test("LastDate1", () {
+    final lastDate = DateTime(2024, 1, 1);
+    final field = DateTimeFieldBloc(lastDate: lastDate);
+
+    expect(field.state.lastDate, lastDate);
+    expect(field.state.firstDate, isNull);
+
+    field.changeLastDate(null);
+
+    expect(field.state.lastDate, isNull);
+    expect(field.state.firstDate, isNull);
+
+    field.changeLastDate(lastDate);
+
+    expect(field.state.lastDate, lastDate);
+    expect(field.state.firstDate, isNull);
+  });
 }
