@@ -1,3 +1,8 @@
+## 3.3.2
+- Add methods to change firstDate and lastDate without field bloc
+- Add additional methods to group field bloc
+- Add tests
+
 ## 3.3.1
 - Update dependencies
 
