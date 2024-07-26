@@ -5,6 +5,7 @@ on:
     branches:
       - master
     paths-ignore:
+      - pubspec.yaml
       - README.md
       - CHANGELOG.md
       - .gitignore
