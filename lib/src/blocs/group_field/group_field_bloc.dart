@@ -39,10 +39,29 @@ class GroupFieldBloc<T extends FieldBloc>
     }
   }
 
+  void insertFieldBloc(int index, T fieldBloc) {
+    insertFieldBlocs(index, [fieldBloc]);
+  }
+
+  void insertFieldBlocs(int index, List<T> fieldBlocs) {
+    if (fieldBlocs.isNotEmpty) {
+      final nextFieldBlocs = [...state.fieldBlocs]
+        ..insertAll(index, fieldBlocs);
+
+      emit(state.copyWith(
+        fieldBlocs: nextFieldBlocs,
+      ));
+
+      FormBlocUtils.updateFormBloc(
+        fieldBlocs: fieldBlocs,
+        formBloc: state.formBloc,
+      );
+    }
+  }
+
   setFieldBlocs(List<T> fieldBlocs) {
-    emit(state.copyWith(
-      fieldBlocs: [...fieldBlocs],
-    ));
+    removeAllFieldBlocs();
+    addFieldBlocs(fieldBlocs);
   }
 
   void removeFieldBlocAt(int index) {
@@ -61,11 +80,12 @@ class GroupFieldBloc<T extends FieldBloc>
     }
   }
 
-  void removeFieldBloc(FieldBloc fieldBloc) =>
-      removeFieldBlocsWhere((fb) => fieldBloc == fb);
+  void removeFieldBloc(FieldBloc fieldBloc) => removeFieldBlocs([fieldBloc]);
 
   void removeFieldBlocs(Iterable<FieldBloc> fieldBlocs) =>
       removeFieldBlocsWhere(fieldBlocs.contains);
+
+  void removeAllFieldBlocs() => removeFieldBlocsWhere((_) => true);
 
   void removeFieldBlocsWhere(bool Function(T element) test) {
     final nextFieldBlocs = [...state.fieldBlocs];
