@@ -1,6 +1,19 @@
 part of 'form_bloc.dart';
 
-const empty = Object();
+class _Empty {
+  const _Empty();
+
+  @override
+  bool operator ==(Object other) => other is _Empty;
+
+  @override
+  int get hashCode => 0;
+
+  @override
+  String toString() => '_Empty';
+}
+
+const empty = _Empty();
 
 class FormBlocUtils {
   FormBlocUtils._();

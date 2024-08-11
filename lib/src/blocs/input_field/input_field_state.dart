@@ -37,19 +37,19 @@ class InputFieldBlocState<T> extends FieldBlocState<T> {
     return InputFieldBlocState(
       name: name,
       initialValue:
-          initialValue == empty ? this.initialValue : initialValue as T,
-      value: value == empty ? this.value : value as T,
+          empty == initialValue ? this.initialValue : initialValue as T,
+      value: empty == value ? this.value : value as T,
       isValueChanged: isValueChanged ?? this.isValueChanged,
       isDirty: isDirty ?? this.isDirty,
       validators: validators ?? this.validators,
       rules: rules ?? this.rules,
-      error: error == empty ? this.error : error as String?,
+      error: empty == error ? this.error : error as String?,
       enabled: enabled ?? this.enabled,
       readOnly: readOnly ?? this.readOnly,
       loading: loading ?? this.loading,
-      data: data == empty ? this.data : data,
-      extraData: extraData == empty ? this.extraData : extraData,
-      formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
+      data: empty == data ? this.data : data,
+      extraData: empty == extraData ? this.extraData : extraData,
+      formBloc: empty == formBloc ? this.formBloc : formBloc as FormBloc?,
     );
   }
 }

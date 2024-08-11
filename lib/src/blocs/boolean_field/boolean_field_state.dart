@@ -37,19 +37,19 @@ class BooleanFieldBlocState extends FieldBlocState<bool?> {
     return BooleanFieldBlocState(
       name: name,
       initialValue:
-          initialValue == empty ? this.initialValue : initialValue as bool?,
-      value: value == empty ? this.value : value as bool?,
+          empty == initialValue ? this.initialValue : initialValue as bool?,
+      value: empty == value ? this.value : value as bool?,
       isValueChanged: isValueChanged ?? this.isValueChanged,
       isDirty: isDirty ?? this.isDirty,
       validators: validators ?? this.validators,
       rules: rules ?? this.rules,
-      error: error == empty ? this.error : error as String?,
+      error: empty == error ? this.error : error as String?,
       enabled: enabled ?? this.enabled,
       readOnly: readOnly ?? this.readOnly,
       loading: loading ?? this.loading,
-      data: data == empty ? this.data : data,
-      extraData: extraData == empty ? this.extraData : extraData,
-      formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
+      data: empty == data ? this.data : data,
+      extraData: empty == extraData ? this.extraData : extraData,
+      formBloc: empty == formBloc ? this.formBloc : formBloc as FormBloc?,
     );
   }
 }

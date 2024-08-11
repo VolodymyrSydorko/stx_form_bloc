@@ -151,7 +151,7 @@ void main() {
     expect(groupField.state.fieldBlocs.length, 0);
   });
 
-  test("Group with form bloc mix test", () {
+  test("FormBloc property", () {
     final formBloc = FormBloc();
 
     final field1 = TextFieldBloc();
