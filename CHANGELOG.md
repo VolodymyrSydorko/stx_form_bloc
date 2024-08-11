@@ -1,3 +1,6 @@
+## 3.3.3
+- Improve copyWith for flutter web
+
 ## 3.3.2
 - Add methods to change firstDate and lastDate without field bloc
 - Add additional methods to group field bloc
