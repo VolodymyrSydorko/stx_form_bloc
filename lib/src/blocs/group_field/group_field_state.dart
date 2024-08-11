@@ -26,9 +26,9 @@ class GroupFieldBlocState<T extends FieldBloc> extends MultiFieldBlocState {
       name: name,
       isValid: isValid ?? this.isValid,
       hasDisplayError: hasDisplayError ?? this.hasDisplayError,
-      data: data == empty ? this.data : data,
-      extraData: extraData == empty ? this.extraData : extraData,
-      formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
+      data: empty == data ? this.data : data,
+      extraData: empty == extraData ? this.extraData : extraData,
+      formBloc: empty == formBloc ? this.formBloc : formBloc as FormBloc?,
       fieldBlocs: fieldBlocs ?? this.fieldBlocs,
     );
   }

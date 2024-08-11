@@ -47,23 +47,23 @@ class DateTimeFieldBlocState extends FieldBlocState<DateTime?> {
     return DateTimeFieldBlocState(
       name: name,
       initialValue:
-          initialValue == empty ? this.initialValue : initialValue as DateTime?,
-      value: value == empty ? this.value : value as DateTime?,
+          empty == initialValue ? this.initialValue : initialValue as DateTime?,
+      value: empty == value ? this.value : value as DateTime?,
       isValueChanged: isValueChanged ?? this.isValueChanged,
       isDirty: isDirty ?? this.isDirty,
       validators: validators ?? this.validators,
       rules: rules ?? this.rules,
-      error: error == empty ? this.error : error as String?,
+      error: empty == error ? this.error : error as String?,
       enabled: enabled ?? this.enabled,
       readOnly: readOnly ?? this.readOnly,
       loading: loading ?? this.loading,
-      extraData: extraData == empty ? this.extraData : extraData,
-      data: data == empty ? this.data : data,
-      formBloc: formBloc == empty ? this.formBloc : formBloc as FormBloc?,
+      extraData: empty == extraData ? this.extraData : extraData,
+      data: empty == data ? this.data : data,
+      formBloc: empty == formBloc ? this.formBloc : formBloc as FormBloc?,
       dateFormat:
-          dateFormat == empty ? this.dateFormat : dateFormat as DateFormat?,
-      firstDate: firstDate == empty ? this.firstDate : firstDate as DateTime?,
-      lastDate: lastDate == empty ? this.lastDate : lastDate as DateTime?,
+          empty == dateFormat ? this.dateFormat : dateFormat as DateFormat?,
+      firstDate: empty == firstDate ? this.firstDate : firstDate as DateTime?,
+      lastDate: empty == lastDate ? this.lastDate : lastDate as DateTime?,
     );
   }
 

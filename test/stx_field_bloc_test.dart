@@ -508,6 +508,29 @@ void main() {
 
       expect(textField.state.rules.length, 0);
     });
+
+    test("FormBloc", () {
+      final formBloc = FormBloc();
+      final textField = TextFieldBloc();
+
+      expect(textField.state.formBloc, isNull);
+
+      textField.changeValue('value1');
+
+      expect(textField.state.formBloc, isNull);
+
+      textField.updateFormBloc(formBloc);
+
+      expect(textField.state.formBloc, formBloc);
+
+      textField.changeValue('value2');
+
+      expect(textField.state.formBloc, formBloc);
+
+      textField.removeFormBloc(formBloc);
+
+      expect(textField.state.formBloc, isNull);
+    });
   });
 
   group("Value stream test", () {
