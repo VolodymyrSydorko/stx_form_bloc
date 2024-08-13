@@ -61,30 +61,48 @@ class DateTimeFieldBloc
     emit(state.copyWith(dateFormat: newDateFormat));
   }
 
-  changeFirstDate(DateTime? firstDate) {
+  changeFirstDate(DateTime? firstDate, {bool force = false}) {
+    if (!force && (disabled || readOnly)) return;
+
+    final error = getError(value);
+
+    emit(state.copyWith(
+      firstDate: firstDate,
+      error: error,
+      isDirty: rules.hasOnChange,
+    ));
+
     emit(state.copyWith(firstDate: firstDate));
   }
 
-  changeLastDate(DateTime? lastDate) {
-    emit(state.copyWith(lastDate: lastDate));
+  changeLastDate(DateTime? lastDate, {bool force = false}) {
+    if (!force && (disabled || readOnly)) return;
+
+    final error = getError(value);
+
+    emit(state.copyWith(
+      lastDate: lastDate,
+      error: error,
+      isDirty: rules.hasOnChange,
+    ));
   }
 
-  setFirstDateBloc(DateTimeFieldBloc? firstDateBloc) {
+  setFirstDateBloc(DateTimeFieldBloc? firstDateBloc, {bool force = false}) {
     firstDateSubscription?.cancel();
 
-    firstDateSubscription = firstDateBloc?.valueStream.listen((date) {
-      if (state.firstDate != date) {
-        emit(state.copyWith(firstDate: date));
+    firstDateSubscription = firstDateBloc?.valueStream.listen((firstDate) {
+      if (state.firstDate != firstDate) {
+        changeFirstDate(firstDate, force: force);
       }
     });
   }
 
-  setLastDateBloc(DateTimeFieldBloc? lastDateBloc) {
+  setLastDateBloc(DateTimeFieldBloc? lastDateBloc, {bool force = false}) {
     lastDateSubscription?.cancel();
 
-    lastDateSubscription = lastDateBloc?.valueStream.listen((date) {
-      if (state.lastDate != state.value) {
-        emit(state.copyWith(lastDate: state.value));
+    lastDateSubscription = lastDateBloc?.valueStream.listen((lastDate) {
+      if (state.lastDate != lastDate) {
+        changeLastDate(lastDate, force: force);
       }
     });
   }
