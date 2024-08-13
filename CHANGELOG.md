@@ -1,3 +1,6 @@
+## 3.3.4
+- Validate the date field when the first and last dates are changed
+
 ## 3.3.3
 - Improve copyWith for flutter web
 
