@@ -45,12 +45,14 @@ class LoginFormBloc extends FormBloc<String, String> {
   }) {
     email = TextFieldBloc(
       initialValue: emailData ?? 'volodymyr@gmail.com',
+      // ignore: deprecated_member_use_from_same_package
       customValidators: {FieldBlocValidators.email},
       rules: {ValidationType.onChange},
     );
 
     password = TextFieldBloc(
       initialValue: 'qwerty123',
+      // ignore: deprecated_member_use_from_same_package
       customValidators: {FieldBlocValidators.passwordMin6Chars},
       rules: {ValidationType.onChange},
     );
@@ -60,6 +62,7 @@ class LoginFormBloc extends FormBloc<String, String> {
       (index) {
         return TextFieldBloc(
           initialValue: 'qwerty123',
+          // ignore: deprecated_member_use_from_same_package
           customValidators: {FieldBlocValidators.passwordMin6Chars},
           rules: {ValidationType.onChange},
         );
