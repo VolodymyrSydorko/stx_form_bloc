@@ -1,3 +1,6 @@
+## 4.0.0
+- Update dependencies
+
 ## 3.3.4
 - Validate the date field when the first and last dates are changed
 
