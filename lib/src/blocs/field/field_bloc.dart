@@ -13,6 +13,8 @@ part 'field_state.dart';
 mixin FieldBloc<State extends FieldBlocStateBase> on BlocBase<State> {
   String get name => state.name;
 
+  dynamic get data => state.data;
+
   dynamic get extraData => state.extraData;
 
   bool validate();
@@ -365,6 +367,7 @@ class MultiFieldBloc<TState extends MultiFieldBlocState> extends Cubit<TState>
     final isValid = validateAll(state.flatFieldBlocs);
 
     emit(state.copyWith(
+      isValid: isValid,
       hasDisplayError: deepHasDisplayError(flatFieldBlocs),
     ) as TState);
 
