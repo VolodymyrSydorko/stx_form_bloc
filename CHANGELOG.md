@@ -1,3 +1,7 @@
+## 4.0.1
+- Added "data" getter to FieldBloc
+- Fix MultiFieldBloc validation
+
 ## 4.0.0
 - Update dependencies
 
