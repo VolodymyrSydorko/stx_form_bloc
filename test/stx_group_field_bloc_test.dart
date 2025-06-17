@@ -151,6 +151,30 @@ void main() {
     expect(groupField.state.fieldBlocs.length, 0);
   });
 
+  test("Validation1", () {
+    final field1 = TextFieldBloc(required: true);
+    final groupField = GroupFieldBloc(fieldBlocs: [field1]);
+
+    expect(groupField.state.isValid, false);
+
+    field1.changeValue('test');
+    groupField.validate();
+
+    expect(groupField.state.isValid, true);
+  });
+
+  test("Validation2", () {
+    final field1 = TextFieldBloc(required: true, initialValue: 'test');
+    final groupField = GroupFieldBloc(fieldBlocs: [field1]);
+
+    expect(groupField.state.isValid, true);
+
+    field1.changeValue('');
+    groupField.validate();
+
+    expect(groupField.state.isValid, false);
+  });
+
   test("FormBloc property", () {
     final formBloc = FormBloc();
 
